@@ -4,9 +4,296 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadoras de Salud - FitLife Pro</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* ========================================
+           FitLife Pro - Professional CSS
+           ======================================== */
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f5576c;
+            --dark: #1a1a2e;
+            --light: #f5f7fa;
+            --text: #333;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ========================================
+           Navigation
+           ======================================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-logo i {
+            font-size: 1.8rem;
+        }
+
+        .pro-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-menu a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--primary);
+        }
+
+        .nav-menu a:hover:after,
+        .nav-menu a.active:after {
+            width: 100%;
+        }
+
+        .nav-cta .btn-primary {
+            padding: 0.6rem 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* ========================================
+           Buttons
+           ======================================== */
+        .btn-primary,
+        .btn-secondary,
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* ========================================
+           Footer
+           ======================================== */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo i {
+            color: var(--primary);
+        }
+
+        .footer-col p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.7rem;
+        }
+
+        .footer-col ul a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ========================================
+           Responsive Design
+           ======================================== */
+        @media (max-width: 968px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: var(--shadow-lg);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Calculator Page Specific Styles */
         /* Calculator Page Specific Styles */
         .calculator-hero {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
@@ -562,6 +849,287 @@
         </div>
     </footer>
 
-    <script src="main.js"></script>
+    <script>
+        // ========================================
+        // Mobile Menu Toggle
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                });
+            }
+
+            // Close menu when clicking on a link
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    hamburger.classList.remove('active');
+                });
+            });
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        });
+
+        // ========================================
+        // BMI Calculator with Personalized Analysis
+        // ========================================
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('bmi-height').value);
+            const weight = parseFloat(document.getElementById('bmi-weight').value);
+
+            if (!height || !weight || height <= 0 || weight <= 0) {
+                showAlert('Por favor ingresa valores válidos', 'error');
+                return;
+            }
+
+            const heightM = height / 100;
+            const bmi = weight / (heightM * heightM);
+
+            const result = {
+                bmi: bmi.toFixed(1),
+                category: getBMICategory(bmi),
+                color: getBMIColor(bmi),
+                analysis: getBMIAnalysis(bmi, weight, height)
+            };
+
+            displayBMIResult(result);
+        }
+
+        function getBMICategory(bmi) {
+            if (bmi < 18.5) return 'Bajo peso';
+            if (bmi < 25) return 'Peso normal';
+            if (bmi < 30) return 'Sobrepeso';
+            return 'Obesidad';
+        }
+
+        function getBMIColor(bmi) {
+            if (bmi < 18.5) return '#ff9800';
+            if (bmi < 25) return '#4caf50';
+            if (bmi < 30) return '#ff9800';
+            return '#f44336';
+        }
+
+        function getBMIAnalysis(bmi, weight, height) {
+            const heightM = height / 100;
+            const normalBMIMin = 18.5;
+            const normalBMIMax = 24.9;
+
+            let analysis = {
+                status: '',
+                recommendation: '',
+                targetWeight: '',
+                message: ''
+            };
+
+            if (bmi < 18.5) {
+                const targetWeight = normalBMIMin * (heightM * heightM);
+                const diff = targetWeight - weight;
+                analysis.status = 'Estás por debajo del peso saludable';
+                analysis.recommendation = `Te sugerimos ganar aproximadamente ${diff.toFixed(1)} kg para alcanzar un IMC saludable.`;
+                analysis.targetWeight = `Peso objetivo: ${targetWeight.toFixed(1)} kg`;
+                analysis.message = 'Consulta con un nutricionista para un plan de ganancia de peso saludable.';
+            } else if (bmi < 25) {
+                analysis.status = '¡Excelente! Estás en tu peso ideal';
+                analysis.recommendation = 'Mantén tu estilo de vida actual con ejercicio regular y alimentación balanceada.';
+                analysis.targetWeight = `Rango saludable: ${(normalBMIMin * heightM * heightM).toFixed(1)} - ${(normalBMIMax * heightM * heightM).toFixed(1)} kg`;
+                analysis.message = '¡Sigue así! Estás haciendo un gran trabajo.';
+            } else if (bmi < 30) {
+                const targetWeight = normalBMIMax * (heightM * heightM);
+                const diff = weight - targetWeight;
+                analysis.status = 'Tienes sobrepeso';
+                analysis.recommendation = `Te faltan ${diff.toFixed(1)} kg para salir del sobrepeso y entrar en rango normal.`;
+                analysis.targetWeight = `Peso objetivo: ${targetWeight.toFixed(1)} kg`;
+                analysis.message = 'Con un déficit calórico moderado de 500 cal/día, podrías alcanzar tu objetivo en ' + Math.ceil(diff / 0.5) + ' semanas.';
+            } else {
+                const targetWeight = normalBMIMax * (heightM * heightM);
+                const diff = weight - targetWeight;
+                analysis.status = 'Obesidad - Es importante tomar acción';
+                analysis.recommendation = `Necesitas perder aproximadamente ${diff.toFixed(1)} kg para alcanzar un peso saludable.`;
+                analysis.targetWeight = `Peso objetivo: ${targetWeight.toFixed(1)} kg`;
+                analysis.message = 'Te recomendamos consultar con un profesional de la salud. Con un plan adecuado, podrías alcanzar tu objetivo en ' + Math.ceil(diff / 0.5) + ' semanas.';
+            }
+
+            return analysis;
+        }
+
+        function displayBMIResult(result) {
+            const resultDiv = document.getElementById('bmi-result');
+            resultDiv.innerHTML = `
+                <div class="result-card">
+                    <div class="result-header">
+                        <h3>Tu IMC: <span style="color: ${result.color}">${result.bmi}</span></h3>
+                        <span class="category-badge" style="background: ${result.color}">${result.category}</span>
+                    </div>
+                    <div class="analysis-section">
+                        <div class="analysis-item">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <h4>Estado Actual</h4>
+                                <p>${result.analysis.status}</p>
+                            </div>
+                        </div>
+                        <div class="analysis-item">
+                            <i class="fas fa-bullseye"></i>
+                            <div>
+                                <h4>Recomendación</h4>
+                                <p>${result.analysis.recommendation}</p>
+                            </div>
+                        </div>
+                        <div class="analysis-item">
+                            <i class="fas fa-weight"></i>
+                            <div>
+                                <h4>Objetivo</h4>
+                                <p>${result.analysis.targetWeight}</p>
+                            </div>
+                        </div>
+                        <div class="analysis-item success">
+                            <i class="fas fa-lightbulb"></i>
+                            <div>
+                                <h4>Plan de Acción</h4>
+                                <p>${result.analysis.message}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            resultDiv.classList.add('show');
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ========================================
+        // Calorie Calculator
+        // ========================================
+        function calculateCalories() {
+            const age = parseFloat(document.getElementById('cal-age').value);
+            const gender = document.getElementById('cal-gender').value;
+            const weight = parseFloat(document.getElementById('cal-weight').value);
+            const height = parseFloat(document.getElementById('cal-height').value);
+            const activity = parseFloat(document.getElementById('cal-activity').value);
+            const goal = document.getElementById('cal-goal').value;
+
+            if (!age || !weight || !height) {
+                showAlert('Por favor completa todos los campos', 'error');
+                return;
+            }
+
+            // Mifflin-St Jeor Equation
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+
+            const tdee = Math.round(bmr * activity);
+            let targetCalories, weeklyWeightChange;
+
+            if (goal === 'lose') {
+                targetCalories = Math.round(tdee - 500);
+                weeklyWeightChange = -0.5;
+            } else if (goal === 'gain') {
+                targetCalories = Math.round(tdee + 300);
+                weeklyWeightChange = 0.25;
+            } else {
+                targetCalories = tdee;
+                weeklyWeightChange = 0;
+            }
+
+            displayCalorieResult({
+                tdee,
+                targetCalories,
+                bmr: Math.round(bmr),
+                weeklyWeightChange,
+                goal
+            });
+        }
+
+        function displayCalorieResult(result) {
+            const resultDiv = document.getElementById('cal-result');
+            const goalText = {
+                'lose': 'Perder Peso',
+                'maintain': 'Mantener Peso',
+                'gain': 'Ganar Peso'
+            };
+
+            resultDiv.innerHTML = `
+                <div class="result-card">
+                    <div class="result-header">
+                        <h3>Tu Plan Calórico: <span class="text-primary">${result.targetCalories}</span> cal/día</h3>
+                        <span class="category-badge" style="background: linear-gradient(135deg, var(--primary), var(--secondary))">${goalText[result.goal]}</span>
+                    </div>
+                    <div class="calorie-breakdown">
+                        <div class="calorie-item">
+                            <span class="label">Metabolismo Basal (BMR)</span>
+                            <span class="value">${result.bmr} cal</span>
+                        </div>
+                        <div class="calorie-item">
+                            <span class="label">Gasto Total Diario (TDEE)</span>
+                            <span class="value">${result.tdee} cal</span>
+                        </div>
+                        <div class="calorie-item highlight">
+                            <span class="label">Calorías Objetivo</span>
+                            <span class="value">${result.targetCalories} cal</span>
+                        </div>
+                        <div class="calorie-item">
+                            <span class="label">Cambio Semanal Esperado</span>
+                            <span class="value">${result.weeklyWeightChange > 0 ? '+' : ''}${result.weeklyWeightChange} kg</span>
+                        </div>
+                    </div>
+                    <div class="analysis-tip">
+                        <i class="fas fa-info-circle"></i>
+                        <p><strong>Consejo:</strong> ${getCalorieTip(result.goal)}</p>
+                    </div>
+                </div>
+            `;
+            resultDiv.classList.add('show');
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function getCalorieTip(goal) {
+            const tips = {
+                'lose': 'Para perder peso de forma saludable, mantén un déficit de 500 calorías diarias. Combina con ejercicio para mejores resultados.',
+                'maintain': 'Mantén tu ingesta calórica estable y continúa con ejercicio regular para preservar tu peso actual.',
+                'gain': 'Aumenta tu ingesta con alimentos nutritivos y combina con entrenamiento de fuerza para ganar masa muscular.'
+            };
+            return tips[goal];
+        }
+
+        // ========================================
+        // Alert System
+        // ========================================
+        function showAlert(message, type = 'info') {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(alert);
+
+            setTimeout(() => {
+                alert.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 300);
+            }, 3000);
+        }
+
+        console.log('🏋️ FitLife Pro Calculadoras - Cargado correctamente!');
+    </script>
 </body>
 </html>
