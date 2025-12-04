@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de Progreso - FitLife Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f5576c;
+            --dark: #1a1a2e;
+            --light: #f5f7fa;
+            --text: #333;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .pro-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--primary);
+        }
+
+        /* Hero */
+        .tracker-hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 8rem 0 4rem;
+            text-align: center;
+        }
+
+        .tracker-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tracker-hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        /* Stats Cards */
+        .stats-section {
+            padding: 4rem 0 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Add Entry Form */
+        .add-entry-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-group input {
+            padding: 0.8rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-add {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .btn-add:hover {
+            transform: scale(1.02);
+        }
+
+        /* Chart Section */
+        .chart-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: 2rem;
+        }
+
+        .chart-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Progress Table */
+        .table-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .progress-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .progress-table thead {
+            background: var(--light);
+        }
+
+        .progress-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .progress-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .progress-table tbody tr:hover {
+            background: var(--light);
+        }
+
+        .btn-delete {
+            padding: 0.4rem 0.8rem;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-delete:hover {
+            opacity: 0.8;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Alert */
+        .alert {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            opacity: 0;
+            transform: translateX(400px);
+            transition: all 0.3s;
+        }
+
+        .alert.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .alert-success {
+            border-left: 4px solid var(--success);
+        }
+
+        .alert-error {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tracker-hero h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-table {
+                font-size: 0.9rem;
+            }
+
+            .progress-table th,
+            .progress-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                FitLife <span class="pro-badge">PRO</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="recipes.html">Recetas</a></li>
+                <li><a href="calculators.html">Calculadoras</a></li>
+                <li><a href="exercises.html">Ejercicios</a></li>
+                <li><a href="tracker.html" class="active">Progreso</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="tracker-hero">
+        <div class="container">
+            <h1><i class="fas fa-chart-line"></i> Seguimiento de Progreso</h1>
+            <p>Registra tus medidas y observa tu transformación. Los datos se guardan automáticamente en tu dispositivo.</p>
+        </div>
+    </section>
+
+    <!-- Stats Cards -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-weight"></i>
+                    </div>
+                    <div class="stat-value" id="currentWeight">--</div>
+                    <div class="stat-label">Peso Actual (kg)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="stat-value" id="totalLoss">--</div>
+                    <div class="stat-label">Pérdida Total (kg)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <div class="stat-value" id="toGoal">--</div>
+                    <div class="stat-label">Faltan para Meta (kg)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-value" id="totalEntries">0</div>
+                    <div class="stat-label">Registros Totales</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Entry Form -->
+    <section class="add-entry-section container">
+        <h2 class="form-title">
+            <i class="fas fa-plus-circle"></i>
+            Agregar Nuevo Registro
+        </h2>
+        <form id="entryForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="date">Fecha</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="weight">Peso (kg)</label>
+                    <input type="number" id="weight" step="0.1" required placeholder="75.5">
+                </div>
+                <div class="form-group">
+                    <label for="chest">Pecho (cm)</label>
+                    <input type="number" id="chest" step="0.1" placeholder="95">
+                </div>
+                <div class="form-group">
+                    <label for="waist">Cintura (cm)</label>
+                    <input type="number" id="waist" step="0.1" placeholder="85">
+                </div>
+                <div class="form-group">
+                    <label for="hips">Cadera (cm)</label>
+                    <input type="number" id="hips" step="0.1" placeholder="100">
+                </div>
+            </div>
+            <button type="submit" class="btn-add">
+                <i class="fas fa-save"></i> Guardar Registro
+            </button>
+        </form>
+    </section>
+
+    <!-- Chart Section -->
+    <section class="chart-section container">
+        <h2 class="form-title">
+            <i class="fas fa-chart-area"></i>
+            Gráfica de Progreso de Peso
+        </h2>
+        <div class="chart-container">
+            <canvas id="weightChart" class="chart-canvas"></canvas>
+        </div>
+    </section>
+
+    <!-- Progress Table -->
+    <section class="table-section container">
+        <h2 class="form-title">
+            <i class="fas fa-table"></i>
+            Historial de Registros
+        </h2>
+        <div id="tableContainer">
+            <table class="progress-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Peso (kg)</th>
+                        <th>Pecho (cm)</th>
+                        <th>Cintura (cm)</th>
+                        <th>Cadera (cm)</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="entriesTableBody">
+                    <!-- Entries will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 FitLife Pro. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // LocalStorage management
+        const STORAGE_KEY = 'fitlife_progress_entries';
+        const GOAL_KEY = 'fitlife_goal_weight';
+
+        // Get entries from localStorage
+        function getEntries() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+        }
+
+        // Save entries to localStorage
+        function saveEntries(entries) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+        }
+
+        // Get goal weight
+        function getGoalWeight() {
+            const goal = localStorage.getItem(GOAL_KEY);
+            return goal ? parseFloat(goal) : null;
+        }
+
+        // Set today's date as default
+        document.getElementById('date').valueAsDate = new Date();
+
+        // Handle form submission
+        document.getElementById('entryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const entry = {
+                id: Date.now(),
+                date: document.getElementById('date').value,
+                weight: parseFloat(document.getElementById('weight').value),
+                chest: parseFloat(document.getElementById('chest').value) || null,
+                waist: parseFloat(document.getElementById('waist').value) || null,
+                hips: parseFloat(document.getElementById('hips').value) || null
+            };
+
+            const entries = getEntries();
+            entries.push(entry);
+            entries.sort((a, b) => new Date(a.date) - new Date(b.date));
+            saveEntries(entries);
+
+            // Reset form
+            this.reset();
+            document.getElementById('date').valueAsDate = new Date();
+
+            // Update UI
+            updateStats();
+            updateTable();
+            updateChart();
+            showAlert('¡Registro guardado exitosamente!', 'success');
+        });
+
+        // Update stats cards
+        function updateStats() {
+            const entries = getEntries();
+
+            if (entries.length === 0) {
+                document.getElementById('currentWeight').textContent = '--';
+                document.getElementById('totalLoss').textContent = '--';
+                document.getElementById('toGoal').textContent = '--';
+                document.getElementById('totalEntries').textContent = '0';
+                return;
+            }
+
+            const latest = entries[entries.length - 1];
+            const first = entries[0];
+            const currentWeight = latest.weight;
+            const totalLoss = first.weight - currentWeight;
+            const goalWeight = getGoalWeight();
+
+            document.getElementById('currentWeight').textContent = currentWeight.toFixed(1);
+            document.getElementById('totalLoss').textContent = totalLoss >= 0 ? `-${totalLoss.toFixed(1)}` : `+${Math.abs(totalLoss).toFixed(1)}`;
+            document.getElementById('totalEntries').textContent = entries.length;
+
+            if (goalWeight) {
+                const toGoal = currentWeight - goalWeight;
+                document.getElementById('toGoal').textContent = toGoal > 0 ? toGoal.toFixed(1) : '¡Meta alcanzada!';
+            } else {
+                document.getElementById('toGoal').textContent = '--';
+            }
+        }
+
+        // Update table
+        function updateTable() {
+            const entries = getEntries();
+            const tbody = document.getElementById('entriesTableBody');
+
+            if (entries.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No hay registros aún. ¡Agrega tu primer registro arriba!</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = entries.reverse().map(entry => `
+                <tr>
+                    <td>${formatDate(entry.date)}</td>
+                    <td>${entry.weight.toFixed(1)}</td>
+                    <td>${entry.chest ? entry.chest.toFixed(1) : '-'}</td>
+                    <td>${entry.waist ? entry.waist.toFixed(1) : '-'}</td>
+                    <td>${entry.hips ? entry.hips.toFixed(1) : '-'}</td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteEntry(${entry.id})">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Delete entry
+        function deleteEntry(id) {
+            if (!confirm('¿Estás seguro de que quieres eliminar este registro?')) return;
+
+            let entries = getEntries();
+            entries = entries.filter(entry => entry.id !== id);
+            saveEntries(entries);
+
+            updateStats();
+            updateTable();
+            updateChart();
+            showAlert('Registro eliminado', 'success');
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString + 'T00:00:00');
+            return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        // Simple chart rendering
+        function updateChart() {
+            const entries = getEntries();
+            const canvas = document.getElementById('weightChart');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas size
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+
+            if (entries.length === 0) {
+                ctx.fillStyle = '#6b7280';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('No hay datos para mostrar', canvas.width / 2, canvas.height / 2);
+                return;
+            }
+
+            const weights = entries.map(e => e.weight);
+            const minWeight = Math.min(...weights) - 2;
+            const maxWeight = Math.max(...weights) + 2;
+            const padding = 50;
+            const chartWidth = canvas.width - padding * 2;
+            const chartHeight = canvas.height - padding * 2;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw axes
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, canvas.height - padding);
+            ctx.lineTo(canvas.width - padding, canvas.height - padding);
+            ctx.stroke();
+
+            // Draw grid lines
+            ctx.strokeStyle = '#f5f7fa';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = padding + (chartHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(canvas.width - padding, y);
+                ctx.stroke();
+            }
+
+            // Draw data points and line
+            ctx.strokeStyle = '#667eea';
+            ctx.fillStyle = '#667eea';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            entries.forEach((entry, index) => {
+                const x = padding + (chartWidth / (entries.length - 1)) * index;
+                const normalizedWeight = (entry.weight - minWeight) / (maxWeight - minWeight);
+                const y = canvas.height - padding - (normalizedWeight * chartHeight);
+
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+
+                // Draw point
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.closePath();
+            });
+
+            ctx.stroke();
+
+            // Draw labels
+            ctx.fillStyle = '#6b7280';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+
+            // X-axis labels (dates)
+            entries.forEach((entry, index) => {
+                const x = padding + (chartWidth / (entries.length - 1)) * index;
+                const date = new Date(entry.date + 'T00:00:00');
+                const label = date.toLocaleDateString('es-ES', { month: 'short', day: 'numeric' });
+                ctx.fillText(label, x, canvas.height - padding + 20);
+            });
+
+            // Y-axis labels (weights)
+            ctx.textAlign = 'right';
+            for (let i = 0; i <= 5; i++) {
+                const weight = minWeight + ((maxWeight - minWeight) / 5) * (5 - i);
+                const y = padding + (chartHeight / 5) * i;
+                ctx.fillText(weight.toFixed(1) + ' kg', padding - 10, y + 5);
+            }
+        }
+
+        // Show alert
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(alert);
+
+            setTimeout(() => alert.classList.add('show'), 100);
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 300);
+            }, 3000);
+        }
+
+        // Initial load
+        updateStats();
+        updateTable();
+        updateChart();
+
+        // Redraw chart on window resize
+        window.addEventListener('resize', updateChart);
+
+        console.log('📊 FitLife Pro Tracker - Cargado correctamente!');
+    </script>
+</body>
+</html>
