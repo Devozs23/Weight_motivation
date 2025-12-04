@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLife - Your Complete Weight Loss Journey</title>
+    <title>FitLife - Tu Guía Completa para Perder Peso</title>
     <style>
         * {
             margin: 0;
@@ -158,7 +158,7 @@
         /* Recipe Grid */
         .recipe-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
         }
 
@@ -168,6 +168,7 @@
             overflow: hidden;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             transition: transform 0.3s;
+            cursor: pointer;
         }
 
         .recipe-card:hover {
@@ -179,11 +180,6 @@
             height: 250px;
             object-fit: cover;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 4em;
         }
 
         .recipe-content {
@@ -202,6 +198,7 @@
             margin-bottom: 15px;
             color: var(--text-light);
             font-size: 0.9em;
+            flex-wrap: wrap;
         }
 
         .recipe-meta span {
@@ -263,10 +260,129 @@
             color: var(--text-light);
         }
 
+        /* Recipe Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 900px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .modal-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1;
+            background: rgba(0,0,0,0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .close:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-body h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        .recipe-instructions {
+            margin-top: 30px;
+        }
+
+        .recipe-instructions h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .instruction-step {
+            padding: 20px;
+            margin-bottom: 15px;
+            background: var(--background-light);
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .instruction-step .step-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .meal-prep-tips {
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--danger-color) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .meal-prep-tips h4 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
         /* Calculators */
         .calculator-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
 
@@ -353,6 +469,12 @@
 
         .result-box.show {
             display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .result-box .big-number {
@@ -410,6 +532,85 @@
             font-weight: bold;
         }
 
+        /* Exercise Section */
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .exercise-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .exercise-card .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .exercise-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+
+        .exercise-card .duration {
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .exercise-card .calories {
+            color: var(--danger-color);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        /* Meal Planner */
+        .meal-planner {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .day-card {
+            background: var(--background-light);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .day-card:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .day-card.selected {
+            background: var(--primary-color);
+            color: white;
+            border: 2px solid var(--secondary-color);
+        }
+
         /* Motivation Section */
         .quote-box {
             background: linear-gradient(135deg, var(--accent-color) 0%, var(--danger-color) 100%);
@@ -425,7 +626,7 @@
 
         .tips-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
         }
 
@@ -451,6 +652,56 @@
         .tip-card p {
             color: var(--text-light);
             line-height: 1.6;
+        }
+
+        /* Success Stories */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .testimonial-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .testimonial-result {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .testimonial-text {
+            color: var(--text-light);
+            line-height: 1.6;
+            font-style: italic;
         }
 
         /* Weight History */
@@ -506,6 +757,7 @@
 
             nav ul {
                 gap: 1rem;
+                font-size: 0.9em;
             }
 
             .input-row {
@@ -515,11 +767,34 @@
             .hero-stats {
                 gap: 20px;
             }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .modal-body h2 {
+                font-size: 2em;
+            }
         }
 
         /* Scroll behavior */
         html {
             scroll-behavior: smooth;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -529,11 +804,14 @@
         <div class="container">
             <div class="logo">💪 FitLife</div>
             <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#recipes">Recipes</a></li>
-                <li><a href="#calculators">Calculators</a></li>
-                <li><a href="#tracker">Tracker</a></li>
-                <li><a href="#motivation">Motivation</a></li>
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#recipes">Recetas</a></li>
+                <li><a href="#exercises">Ejercicios</a></li>
+                <li><a href="#calculators">Calculadoras</a></li>
+                <li><a href="#tracker">Seguimiento</a></li>
+                <li><a href="#meal-planner">Planificador</a></li>
+                <li><a href="#motivation">Motivación</a></li>
+                <li><a href="#success">Testimonios</a></li>
             </ul>
         </div>
     </nav>
@@ -541,20 +819,20 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
-            <h1>Transform Your Life Today</h1>
-            <p>Your complete guide to healthy weight loss with recipes, tools, and motivation</p>
+            <h1>Transforma Tu Vida Hoy</h1>
+            <p>Tu guía completa para una pérdida de peso saludable con recetas, herramientas y motivación</p>
             <div class="hero-stats">
                 <div class="hero-stat">
-                    <div class="number">500+</div>
-                    <div class="label">Healthy Recipes</div>
+                    <div class="number">15+</div>
+                    <div class="label">Recetas Saludables</div>
                 </div>
                 <div class="hero-stat">
-                    <div class="number">10K+</div>
-                    <div class="label">Success Stories</div>
+                    <div class="number">10+</div>
+                    <div class="label">Rutinas de Ejercicio</div>
                 </div>
                 <div class="hero-stat">
                     <div class="number">100%</div>
-                    <div class="label">Free Tools</div>
+                    <div class="label">Herramientas Gratis</div>
                 </div>
             </div>
         </div>
@@ -563,285 +841,117 @@
     <!-- Recipes Section -->
     <section id="recipes">
         <div class="container">
-            <h2 class="section-title">🍽️ Healthy Recipes</h2>
-            <div class="recipe-grid">
-                <!-- Recipe 1: Grilled Chicken Salad -->
-                <div class="recipe-card">
-                    <div class="recipe-image">🥗</div>
-                    <div class="recipe-content">
-                        <h3 class="recipe-title">Grilled Chicken Salad</h3>
-                        <div class="recipe-meta">
-                            <span>⏱️ 20 mins</span>
-                            <span>🔥 350 cal</span>
-                            <span>⭐ Easy</span>
-                        </div>
-                        <div class="nutrition-facts">
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">35g</div>
-                                <div class="nutrition-label">Protein</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">15g</div>
-                                <div class="nutrition-label">Carbs</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">12g</div>
-                                <div class="nutrition-label">Fat</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">8g</div>
-                                <div class="nutrition-label">Fiber</div>
-                            </div>
-                        </div>
-                        <div class="recipe-ingredients">
-                            <h4>Ingredients:</h4>
-                            <ul>
-                                <li>200g grilled chicken breast</li>
-                                <li>2 cups mixed greens</li>
-                                <li>1/2 cup cherry tomatoes</li>
-                                <li>1/4 cucumber, sliced</li>
-                                <li>2 tbsp olive oil</li>
-                                <li>1 tbsp balsamic vinegar</li>
-                                <li>Salt & pepper to taste</li>
-                            </ul>
-                        </div>
-                    </div>
+            <h2 class="section-title">🍽️ Recetas Saludables</h2>
+            <div class="recipe-grid" id="recipeGrid">
+                <!-- Recipes will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Recipe Modal -->
+    <div id="recipeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <img id="modalImage" src="" alt="Recipe">
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Recipe details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Exercise Section -->
+    <section id="exercises" style="background: white;">
+        <div class="container">
+            <h2 class="section-title">🏃 Rutinas de Ejercicio</h2>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="icon">🚶‍♀️</div>
+                    <h4>Caminata Rápida</h4>
+                    <p class="duration">⏱️ 30-45 minutos</p>
+                    <p class="calories">🔥 150-250 calorías</p>
+                    <p>Perfecto para principiantes. Camina a paso ligero, mantén una postura erguida y respira profundamente.</p>
                 </div>
 
-                <!-- Recipe 2: Quinoa Buddha Bowl -->
-                <div class="recipe-card">
-                    <div class="recipe-image">🍚</div>
-                    <div class="recipe-content">
-                        <h3 class="recipe-title">Quinoa Buddha Bowl</h3>
-                        <div class="recipe-meta">
-                            <span>⏱️ 25 mins</span>
-                            <span>🔥 400 cal</span>
-                            <span>⭐ Medium</span>
-                        </div>
-                        <div class="nutrition-facts">
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">18g</div>
-                                <div class="nutrition-label">Protein</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">55g</div>
-                                <div class="nutrition-label">Carbs</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">10g</div>
-                                <div class="nutrition-label">Fat</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">12g</div>
-                                <div class="nutrition-label">Fiber</div>
-                            </div>
-                        </div>
-                        <div class="recipe-ingredients">
-                            <h4>Ingredients:</h4>
-                            <ul>
-                                <li>1 cup cooked quinoa</li>
-                                <li>1 cup roasted chickpeas</li>
-                                <li>1 cup roasted sweet potato</li>
-                                <li>1 cup spinach</li>
-                                <li>1/4 avocado</li>
-                                <li>2 tbsp tahini dressing</li>
-                                <li>Sesame seeds for garnish</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="exercise-card">
+                    <div class="icon">🏃‍♂️</div>
+                    <h4>Jogging</h4>
+                    <p class="duration">⏱️ 20-30 minutos</p>
+                    <p class="calories">🔥 200-400 calorías</p>
+                    <p>Trota a un ritmo cómodo. Alterna entre correr y caminar si eres principiante.</p>
                 </div>
 
-                <!-- Recipe 3: Greek Yogurt Parfait -->
-                <div class="recipe-card">
-                    <div class="recipe-image">🥣</div>
-                    <div class="recipe-content">
-                        <h3 class="recipe-title">Greek Yogurt Parfait</h3>
-                        <div class="recipe-meta">
-                            <span>⏱️ 5 mins</span>
-                            <span>🔥 250 cal</span>
-                            <span>⭐ Easy</span>
-                        </div>
-                        <div class="nutrition-facts">
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">20g</div>
-                                <div class="nutrition-label">Protein</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">30g</div>
-                                <div class="nutrition-label">Carbs</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">5g</div>
-                                <div class="nutrition-label">Fat</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">6g</div>
-                                <div class="nutrition-label">Fiber</div>
-                            </div>
-                        </div>
-                        <div class="recipe-ingredients">
-                            <h4>Ingredients:</h4>
-                            <ul>
-                                <li>200g Greek yogurt (0% fat)</li>
-                                <li>1/2 cup mixed berries</li>
-                                <li>2 tbsp granola</li>
-                                <li>1 tbsp honey</li>
-                                <li>1 tbsp chia seeds</li>
-                                <li>Mint leaves for garnish</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="exercise-card">
+                    <div class="icon">🚴‍♀️</div>
+                    <h4>Ciclismo</h4>
+                    <p class="duration">⏱️ 30-60 minutos</p>
+                    <p class="calories">🔥 250-500 calorías</p>
+                    <p>Excelente para quemar grasa sin impacto en las articulaciones. Ajusta la resistencia según tu nivel.</p>
                 </div>
 
-                <!-- Recipe 4: Salmon with Vegetables -->
-                <div class="recipe-card">
-                    <div class="recipe-image">🐟</div>
-                    <div class="recipe-content">
-                        <h3 class="recipe-title">Baked Salmon & Veggies</h3>
-                        <div class="recipe-meta">
-                            <span>⏱️ 30 mins</span>
-                            <span>🔥 450 cal</span>
-                            <span>⭐ Medium</span>
-                        </div>
-                        <div class="nutrition-facts">
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">40g</div>
-                                <div class="nutrition-label">Protein</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">20g</div>
-                                <div class="nutrition-label">Carbs</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">22g</div>
-                                <div class="nutrition-label">Fat</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">7g</div>
-                                <div class="nutrition-label">Fiber</div>
-                            </div>
-                        </div>
-                        <div class="recipe-ingredients">
-                            <h4>Ingredients:</h4>
-                            <ul>
-                                <li>200g salmon fillet</li>
-                                <li>2 cups broccoli florets</li>
-                                <li>1 cup asparagus</li>
-                                <li>1 lemon, sliced</li>
-                                <li>2 tbsp olive oil</li>
-                                <li>Garlic, herbs & spices</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="exercise-card">
+                    <div class="icon">🧘‍♀️</div>
+                    <h4>Yoga</h4>
+                    <p class="duration">⏱️ 30-45 minutos</p>
+                    <p class="calories">🔥 120-180 calorías</p>
+                    <p>Mejora flexibilidad, reduce estrés y tonifica músculos. Ideal para recuperación activa.</p>
                 </div>
 
-                <!-- Recipe 5: Veggie Stir-Fry -->
-                <div class="recipe-card">
-                    <div class="recipe-image">🥘</div>
-                    <div class="recipe-content">
-                        <h3 class="recipe-title">Veggie Stir-Fry</h3>
-                        <div class="recipe-meta">
-                            <span>⏱️ 15 mins</span>
-                            <span>🔥 280 cal</span>
-                            <span>⭐ Easy</span>
-                        </div>
-                        <div class="nutrition-facts">
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">12g</div>
-                                <div class="nutrition-label">Protein</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">35g</div>
-                                <div class="nutrition-label">Carbs</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">10g</div>
-                                <div class="nutrition-label">Fat</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">9g</div>
-                                <div class="nutrition-label">Fiber</div>
-                            </div>
-                        </div>
-                        <div class="recipe-ingredients">
-                            <h4>Ingredients:</h4>
-                            <ul>
-                                <li>1 cup bell peppers</li>
-                                <li>1 cup snap peas</li>
-                                <li>1 cup mushrooms</li>
-                                <li>1/2 cup carrots, julienned</li>
-                                <li>2 tbsp soy sauce (low sodium)</li>
-                                <li>1 tbsp sesame oil</li>
-                                <li>Ginger & garlic</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="exercise-card">
+                    <div class="icon">💪</div>
+                    <h4>Entrenamiento de Fuerza</h4>
+                    <p class="duration">⏱️ 30-45 minutos</p>
+                    <p class="calories">🔥 180-300 calorías</p>
+                    <p>Construye músculo, acelera metabolismo. Usa pesas, bandas de resistencia o peso corporal.</p>
                 </div>
 
-                <!-- Recipe 6: Protein Smoothie Bowl -->
-                <div class="recipe-card">
-                    <div class="recipe-image">🥤</div>
-                    <div class="recipe-content">
-                        <h3 class="recipe-title">Protein Smoothie Bowl</h3>
-                        <div class="recipe-meta">
-                            <span>⏱️ 10 mins</span>
-                            <span>🔥 320 cal</span>
-                            <span>⭐ Easy</span>
-                        </div>
-                        <div class="nutrition-facts">
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">25g</div>
-                                <div class="nutrition-label">Protein</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">40g</div>
-                                <div class="nutrition-label">Carbs</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">8g</div>
-                                <div class="nutrition-label">Fat</div>
-                            </div>
-                            <div class="nutrition-item">
-                                <div class="nutrition-value">10g</div>
-                                <div class="nutrition-label">Fiber</div>
-                            </div>
-                        </div>
-                        <div class="recipe-ingredients">
-                            <h4>Ingredients:</h4>
-                            <ul>
-                                <li>1 scoop protein powder</li>
-                                <li>1 frozen banana</li>
-                                <li>1/2 cup frozen berries</li>
-                                <li>1 cup almond milk</li>
-                                <li>1 tbsp almond butter</li>
-                                <li>Toppings: granola, fruits, seeds</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="exercise-card">
+                    <div class="icon">🏊‍♀️</div>
+                    <h4>Natación</h4>
+                    <p class="duration">⏱️ 30-45 minutos</p>
+                    <p class="calories">🔥 250-400 calorías</p>
+                    <p>Ejercicio de cuerpo completo, bajo impacto. Perfecto para todas las edades y niveles.</p>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="icon">⚡</div>
+                    <h4>HIIT</h4>
+                    <p class="duration">⏱️ 15-20 minutos</p>
+                    <p class="calories">🔥 200-350 calorías</p>
+                    <p>Intervalos de alta intensidad. Máxima quema de calorías en poco tiempo. Nivel avanzado.</p>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="icon">🕺</div>
+                    <h4>Baile/Zumba</h4>
+                    <p class="duration">⏱️ 30-60 minutos</p>
+                    <p class="calories">🔥 300-500 calorías</p>
+                    <p>Divertido y energético. Quema calorías mientras te diviertes al ritmo de la música.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Calculators Section -->
-    <section id="calculators" style="background: white;">
+    <section id="calculators">
         <div class="container">
-            <h2 class="section-title">🧮 Health Calculators</h2>
+            <h2 class="section-title">🧮 Calculadoras de Salud</h2>
             <div class="calculator-grid">
                 <!-- BMI Calculator -->
                 <div class="calculator-card">
-                    <h3>📏 BMI Calculator</h3>
+                    <h3>📏 Calculadora de IMC</h3>
                     <div class="input-group">
-                        <label>Height (cm)</label>
+                        <label>Altura (cm)</label>
                         <input type="number" id="bmi-height" placeholder="170">
                     </div>
                     <div class="input-group">
-                        <label>Weight (kg)</label>
+                        <label>Peso (kg)</label>
                         <input type="number" id="bmi-weight" placeholder="70">
                     </div>
-                    <button onclick="calculateBMI()">Calculate BMI</button>
+                    <button onclick="calculateBMI()">Calcular IMC</button>
                     <div class="result-box" id="bmi-result">
-                        <div>Your BMI is:</div>
+                        <div>Tu IMC es:</div>
                         <div class="big-number" id="bmi-value">--</div>
                         <div id="bmi-category">--</div>
                     </div>
@@ -849,83 +959,83 @@
 
                 <!-- Calorie Calculator -->
                 <div class="calculator-card">
-                    <h3>🔥 Calorie Needs</h3>
+                    <h3>🔥 Necesidades Calóricas</h3>
                     <div class="input-row">
                         <div class="input-group">
-                            <label>Age</label>
+                            <label>Edad</label>
                             <input type="number" id="cal-age" placeholder="30">
                         </div>
                         <div class="input-group">
-                            <label>Gender</label>
+                            <label>Género</label>
                             <select id="cal-gender">
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="male">Hombre</option>
+                                <option value="female">Mujer</option>
                             </select>
                         </div>
                     </div>
                     <div class="input-row">
                         <div class="input-group">
-                            <label>Weight (kg)</label>
+                            <label>Peso (kg)</label>
                             <input type="number" id="cal-weight" placeholder="70">
                         </div>
                         <div class="input-group">
-                            <label>Height (cm)</label>
+                            <label>Altura (cm)</label>
                             <input type="number" id="cal-height" placeholder="170">
                         </div>
                     </div>
                     <div class="input-group">
-                        <label>Activity Level</label>
+                        <label>Nivel de Actividad</label>
                         <select id="cal-activity">
-                            <option value="1.2">Sedentary (little or no exercise)</option>
-                            <option value="1.375">Light (exercise 1-3 days/week)</option>
-                            <option value="1.55">Moderate (exercise 3-5 days/week)</option>
-                            <option value="1.725">Active (exercise 6-7 days/week)</option>
-                            <option value="1.9">Very Active (intense exercise daily)</option>
+                            <option value="1.2">Sedentario (poco o ningún ejercicio)</option>
+                            <option value="1.375">Ligero (ejercicio 1-3 días/semana)</option>
+                            <option value="1.55">Moderado (ejercicio 3-5 días/semana)</option>
+                            <option value="1.725">Activo (ejercicio 6-7 días/semana)</option>
+                            <option value="1.9">Muy Activo (ejercicio intenso diario)</option>
                         </select>
                     </div>
-                    <button onclick="calculateCalories()">Calculate</button>
+                    <button onclick="calculateCalories()">Calcular</button>
                     <div class="result-box" id="cal-result">
-                        <div>Daily Calories:</div>
+                        <div>Calorías Diarias:</div>
                         <div class="big-number" id="cal-value">--</div>
                         <div style="font-size: 0.9em; margin-top: 10px;">
-                            <div>To lose weight: <strong id="cal-lose">--</strong> cal/day</div>
-                            <div>To gain weight: <strong id="cal-gain">--</strong> cal/day</div>
+                            <div>Para perder peso: <strong id="cal-lose">--</strong> cal/día</div>
+                            <div>Para ganar peso: <strong id="cal-gain">--</strong> cal/día</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Macro Calculator -->
                 <div class="calculator-card">
-                    <h3>🍖 Macro Calculator</h3>
+                    <h3>🍖 Calculadora de Macros</h3>
                     <div class="input-group">
-                        <label>Daily Calories</label>
+                        <label>Calorías Diarias</label>
                         <input type="number" id="macro-calories" placeholder="2000">
                     </div>
                     <div class="input-group">
-                        <label>Goal</label>
+                        <label>Objetivo</label>
                         <select id="macro-goal">
-                            <option value="lose">Lose Weight (40/30/30)</option>
-                            <option value="maintain">Maintain (33/33/33)</option>
-                            <option value="gain">Gain Muscle (30/40/30)</option>
+                            <option value="lose">Perder Peso (40/30/30)</option>
+                            <option value="maintain">Mantener (33/33/33)</option>
+                            <option value="gain">Ganar Músculo (30/40/30)</option>
                         </select>
                     </div>
-                    <button onclick="calculateMacros()">Calculate Macros</button>
+                    <button onclick="calculateMacros()">Calcular Macros</button>
                     <div class="result-box" id="macro-result">
                         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-top: 15px;">
                             <div>
-                                <div style="font-size: 0.9em;">Protein</div>
+                                <div style="font-size: 0.9em;">Proteína</div>
                                 <div class="big-number" style="font-size: 1.8em;" id="macro-protein">--</div>
-                                <div style="font-size: 0.8em;">grams</div>
+                                <div style="font-size: 0.8em;">gramos</div>
                             </div>
                             <div>
-                                <div style="font-size: 0.9em;">Carbs</div>
+                                <div style="font-size: 0.9em;">Carbohidratos</div>
                                 <div class="big-number" style="font-size: 1.8em;" id="macro-carbs">--</div>
-                                <div style="font-size: 0.8em;">grams</div>
+                                <div style="font-size: 0.8em;">gramos</div>
                             </div>
                             <div>
-                                <div style="font-size: 0.9em;">Fats</div>
+                                <div style="font-size: 0.9em;">Grasas</div>
                                 <div class="big-number" style="font-size: 1.8em;" id="macro-fats">--</div>
-                                <div style="font-size: 0.8em;">grams</div>
+                                <div style="font-size: 0.8em;">gramos</div>
                             </div>
                         </div>
                     </div>
@@ -933,22 +1043,92 @@
 
                 <!-- Water Intake Calculator -->
                 <div class="calculator-card">
-                    <h3>💧 Water Intake</h3>
+                    <h3>💧 Consumo de Agua</h3>
                     <div class="input-group">
-                        <label>Weight (kg)</label>
+                        <label>Peso (kg)</label>
                         <input type="number" id="water-weight" placeholder="70">
                     </div>
                     <div class="input-group">
-                        <label>Exercise (minutes/day)</label>
+                        <label>Ejercicio (minutos/día)</label>
                         <input type="number" id="water-exercise" placeholder="30">
                     </div>
-                    <button onclick="calculateWater()">Calculate</button>
+                    <button onclick="calculateWater()">Calcular</button>
                     <div class="result-box" id="water-result">
-                        <div>Daily Water Intake:</div>
+                        <div>Consumo Diario de Agua:</div>
                         <div class="big-number" id="water-value">--</div>
                         <div style="font-size: 0.9em; margin-top: 10px;">
-                            ≈ <strong id="water-glasses">--</strong> glasses (250ml each)
+                            ≈ <strong id="water-glasses">--</strong> vasos (250ml cada uno)
                         </div>
+                    </div>
+                </div>
+
+                <!-- Ideal Weight Calculator -->
+                <div class="calculator-card">
+                    <h3>⚖️ Peso Ideal</h3>
+                    <div class="input-group">
+                        <label>Altura (cm)</label>
+                        <input type="number" id="ideal-height" placeholder="170">
+                    </div>
+                    <div class="input-group">
+                        <label>Género</label>
+                        <select id="ideal-gender">
+                            <option value="male">Hombre</option>
+                            <option value="female">Mujer</option>
+                        </select>
+                    </div>
+                    <button onclick="calculateIdealWeight()">Calcular</button>
+                    <div class="result-box" id="ideal-result">
+                        <div>Tu Peso Ideal:</div>
+                        <div class="big-number" id="ideal-value">--</div>
+                        <div style="font-size: 0.9em; margin-top: 10px;">
+                            Rango saludable: <strong id="ideal-range">--</strong> kg
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Body Fat Calculator -->
+                <div class="calculator-card">
+                    <h3>📊 Porcentaje de Grasa Corporal</h3>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Edad</label>
+                            <input type="number" id="bf-age" placeholder="30">
+                        </div>
+                        <div class="input-group">
+                            <label>Género</label>
+                            <select id="bf-gender">
+                                <option value="male">Hombre</option>
+                                <option value="female">Mujer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" id="bf-weight" placeholder="70">
+                        </div>
+                        <div class="input-group">
+                            <label>Altura (cm)</label>
+                            <input type="number" id="bf-height" placeholder="170">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Cintura (cm)</label>
+                        <input type="number" id="bf-waist" placeholder="80">
+                    </div>
+                    <div class="input-group">
+                        <label>Cuello (cm)</label>
+                        <input type="number" id="bf-neck" placeholder="35">
+                    </div>
+                    <div class="input-group" id="bf-hip-group">
+                        <label>Cadera (cm) - Solo mujeres</label>
+                        <input type="number" id="bf-hip" placeholder="95">
+                    </div>
+                    <button onclick="calculateBodyFat()">Calcular</button>
+                    <div class="result-box" id="bf-result">
+                        <div>Tu Grasa Corporal:</div>
+                        <div class="big-number" id="bf-value">--</div>
+                        <div id="bf-category">--</div>
                     </div>
                 </div>
             </div>
@@ -956,32 +1136,32 @@
     </section>
 
     <!-- Progress Tracker Section -->
-    <section id="tracker">
+    <section id="tracker" style="background: white;">
         <div class="container">
-            <h2 class="section-title">📊 Track Your Progress</h2>
+            <h2 class="section-title">📊 Seguimiento de Progreso</h2>
 
             <div class="card">
-                <h3>Your Progress Dashboard</h3>
+                <h3>Tu Panel de Progreso</h3>
                 <div class="stats-grid">
                     <div class="stat-box">
-                        <h4>Current Weight</h4>
+                        <h4>Peso Actual</h4>
                         <div class="value" id="currentWeight">--</div>
-                        <small>lbs</small>
+                        <small>kg</small>
                     </div>
                     <div class="stat-box">
-                        <h4>Goal Weight</h4>
+                        <h4>Peso Meta</h4>
                         <div class="value" id="goalWeight">--</div>
-                        <small>lbs</small>
+                        <small>kg</small>
                     </div>
                     <div class="stat-box">
-                        <h4>Lost So Far</h4>
+                        <h4>Perdido Hasta Ahora</h4>
                         <div class="value" id="weightLost">--</div>
-                        <small>lbs</small>
+                        <small>kg</small>
                     </div>
                     <div class="stat-box">
-                        <h4>To Go</h4>
+                        <h4>Por Perder</h4>
                         <div class="value" id="weightToGo">--</div>
-                        <small>lbs</small>
+                        <small>kg</small>
                     </div>
                 </div>
                 <div class="progress-bar-container">
@@ -993,32 +1173,95 @@
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
                 <div class="card">
-                    <h3>⚖️ Set Your Goals</h3>
+                    <h3>⚖️ Establece tus Metas</h3>
                     <div class="input-group">
-                        <label>Starting Weight (lbs)</label>
-                        <input type="number" id="startWeight" placeholder="Enter starting weight">
+                        <label>Peso Inicial (kg)</label>
+                        <input type="number" id="startWeight" placeholder="Ingresa tu peso inicial">
                     </div>
                     <div class="input-group">
-                        <label>Goal Weight (lbs)</label>
-                        <input type="number" id="targetWeight" placeholder="Enter goal weight">
+                        <label>Peso Meta (kg)</label>
+                        <input type="number" id="targetWeight" placeholder="Ingresa tu peso meta">
                     </div>
-                    <button onclick="setGoals()">Set Goals</button>
+                    <button onclick="setGoals()">Establecer Metas</button>
                 </div>
 
                 <div class="card">
-                    <h3>📝 Log Your Weight</h3>
+                    <h3>📝 Registra tu Peso</h3>
                     <div class="input-group">
-                        <label>Current Weight (lbs)</label>
-                        <input type="number" id="currentWeightInput" placeholder="Enter current weight">
+                        <label>Peso Actual (kg)</label>
+                        <input type="number" id="currentWeightInput" placeholder="Ingresa tu peso actual">
                     </div>
-                    <button onclick="logWeight()">Log Weight</button>
+                    <button onclick="logWeight()">Registrar Peso</button>
                 </div>
             </div>
 
             <div class="card">
-                <h3>📅 Weight History</h3>
+                <h3>📅 Historial de Peso</h3>
                 <div class="history-list" id="historyList">
-                    <p style="text-align: center; color: #888;">No entries yet. Start logging your weight!</p>
+                    <p style="text-align: center; color: #888;">No hay entradas aún. ¡Comienza a registrar tu peso!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meal Planner Section -->
+    <section id="meal-planner">
+        <div class="container">
+            <h2 class="section-title">📅 Planificador de Comidas</h2>
+            <div class="meal-planner">
+                <h3>Planifica tu Semana</h3>
+                <p style="color: var(--text-light); margin-bottom: 20px;">Selecciona el día y planifica tus comidas para mantener un seguimiento organizado</p>
+                <div class="days-grid">
+                    <div class="day-card" onclick="selectDay('Lunes')">
+                        <h4>Lunes</h4>
+                        <p>📝</p>
+                    </div>
+                    <div class="day-card" onclick="selectDay('Martes')">
+                        <h4>Martes</h4>
+                        <p>📝</p>
+                    </div>
+                    <div class="day-card" onclick="selectDay('Miércoles')">
+                        <h4>Miércoles</h4>
+                        <p>📝</p>
+                    </div>
+                    <div class="day-card" onclick="selectDay('Jueves')">
+                        <h4>Jueves</h4>
+                        <p>📝</p>
+                    </div>
+                    <div class="day-card" onclick="selectDay('Viernes')">
+                        <h4>Viernes</h4>
+                        <p>📝</p>
+                    </div>
+                    <div class="day-card" onclick="selectDay('Sábado')">
+                        <h4>Sábado</h4>
+                        <p>📝</p>
+                    </div>
+                    <div class="day-card" onclick="selectDay('Domingo')">
+                        <h4>Domingo</h4>
+                        <p>📝</p>
+                    </div>
+                </div>
+                <div id="mealPlanDetails" style="margin-top: 30px; display: none;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 20px;">Comidas para <span id="selectedDay"></span></h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                        <div>
+                            <h4>🌅 Desayuno</h4>
+                            <textarea id="breakfast" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; min-height: 80px;"></textarea>
+                        </div>
+                        <div>
+                            <h4>🌞 Almuerzo</h4>
+                            <textarea id="lunch" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; min-height: 80px;"></textarea>
+                        </div>
+                        <div>
+                            <h4>🌙 Cena</h4>
+                            <textarea id="dinner" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; min-height: 80px;"></textarea>
+                        </div>
+                        <div>
+                            <h4>🥗 Snacks</h4>
+                            <textarea id="snacks" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; min-height: 80px;"></textarea>
+                        </div>
+                    </div>
+                    <button onclick="saveMealPlan()" style="margin-top: 20px;">Guardar Plan de Comidas</button>
                 </div>
             </div>
         </div>
@@ -1027,63 +1270,161 @@
     <!-- Motivation Section -->
     <section id="motivation" style="background: white;">
         <div class="container">
-            <h2 class="section-title">💪 Stay Motivated</h2>
+            <h2 class="section-title">💪 Mantente Motivado</h2>
 
             <div class="quote-box" id="motivationQuote">
-                "The only bad workout is the one that didn't happen."
+                "El único entrenamiento malo es el que no se hizo."
             </div>
 
             <h3 style="text-align: center; color: var(--primary-color); margin-bottom: 40px; font-size: 2em;">
-                Daily Tips for Success
+                Consejos Diarios para el Éxito
             </h3>
 
             <div class="tips-grid">
                 <div class="tip-card">
                     <div class="icon">🥗</div>
-                    <h4>Eat Whole Foods</h4>
-                    <p>Focus on whole, unprocessed foods. Fill your plate with vegetables, lean proteins, and whole grains for optimal nutrition and sustained energy.</p>
+                    <h4>Come Alimentos Integrales</h4>
+                    <p>Enfócate en alimentos naturales y sin procesar. Llena tu plato con vegetales, proteínas magras y granos enteros para una nutrición óptima y energía sostenida.</p>
                 </div>
 
                 <div class="tip-card">
                     <div class="icon">💧</div>
-                    <h4>Stay Hydrated</h4>
-                    <p>Drink plenty of water throughout the day. Sometimes thirst is mistaken for hunger. Aim for 8-10 glasses daily.</p>
+                    <h4>Mantente Hidratado</h4>
+                    <p>Bebe mucha agua durante todo el día. A veces la sed se confunde con hambre. Apunta a 8-10 vasos diarios.</p>
                 </div>
 
                 <div class="tip-card">
                     <div class="icon">🏃</div>
-                    <h4>Move Daily</h4>
-                    <p>Exercise doesn't have to be intense. A 30-minute walk, yoga session, or dance workout counts. Find what you enjoy!</p>
+                    <h4>Muévete Diariamente</h4>
+                    <p>El ejercicio no tiene que ser intenso. Una caminata de 30 minutos, sesión de yoga o entrenamiento de baile cuenta. ¡Encuentra lo que disfrutes!</p>
                 </div>
 
                 <div class="tip-card">
                     <div class="icon">😴</div>
-                    <h4>Sleep Well</h4>
-                    <p>Get 7-9 hours of quality sleep. Poor sleep affects hormones that control hunger and can sabotage weight loss efforts.</p>
+                    <h4>Duerme Bien</h4>
+                    <p>Consigue 7-9 horas de sueño de calidad. El mal sueño afecta las hormonas que controlan el hambre y puede sabotear tus esfuerzos de pérdida de peso.</p>
                 </div>
 
                 <div class="tip-card">
                     <div class="icon">📝</div>
-                    <h4>Track Progress</h4>
-                    <p>Keep a food and exercise journal. Awareness is key to making lasting changes. Celebrate small victories along the way!</p>
+                    <h4>Rastrea tu Progreso</h4>
+                    <p>Lleva un diario de comidas y ejercicios. La conciencia es clave para hacer cambios duraderos. ¡Celebra pequeñas victorias en el camino!</p>
                 </div>
 
                 <div class="tip-card">
                     <div class="icon">👥</div>
-                    <h4>Find Support</h4>
-                    <p>Join a community, find a workout buddy, or share your goals with friends. Support makes the journey easier and more enjoyable.</p>
+                    <h4>Encuentra Apoyo</h4>
+                    <p>Únete a una comunidad, encuentra un compañero de entrenamiento o comparte tus metas con amigos. El apoyo hace el viaje más fácil y agradable.</p>
                 </div>
 
                 <div class="tip-card">
                     <div class="icon">🎯</div>
-                    <h4>Set Small Goals</h4>
-                    <p>Break big goals into smaller, achievable milestones. Losing 1-2 pounds per week is healthy and sustainable.</p>
+                    <h4>Establece Metas Pequeñas</h4>
+                    <p>Divide las grandes metas en hitos más pequeños y alcanzables. Perder 0.5-1 kg por semana es saludable y sostenible.</p>
                 </div>
 
                 <div class="tip-card">
                     <div class="icon">🧘</div>
-                    <h4>Manage Stress</h4>
-                    <p>Practice stress-reduction techniques like meditation, deep breathing, or yoga. Stress can trigger emotional eating.</p>
+                    <h4>Maneja el Estrés</h4>
+                    <p>Practica técnicas de reducción de estrés como meditación, respiración profunda o yoga. El estrés puede desencadenar comer emocional.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="icon">🍽️</div>
+                    <h4>Control de Porciones</h4>
+                    <p>Usa platos más pequeños, come despacio y presta atención a las señales de hambre. Aprende a distinguir entre hambre física y emocional.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="icon">📚</div>
+                    <h4>Edúcate</h4>
+                    <p>Aprende sobre nutrición, lee etiquetas de alimentos y entiende qué está entrando en tu cuerpo. El conocimiento es poder.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="icon">⏰</div>
+                    <h4>Sé Consistente</h4>
+                    <p>La consistencia supera la perfección. No te rindas después de un mal día. Vuelve al camino y sigue adelante.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="icon">🎉</div>
+                    <h4>Celebra Logros</h4>
+                    <p>Reconoce tus logros, sin importar cuán pequeños. Cada paso adelante merece reconocimiento. ¡Estás haciendo un gran trabajo!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories Section -->
+    <section id="success">
+        <div class="container">
+            <h2 class="section-title">🌟 Historias de Éxito</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">MG</div>
+                        <div class="testimonial-info">
+                            <h4>María González</h4>
+                            <p class="testimonial-result">Perdió 15 kg en 4 meses</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"FitLife cambió mi vida. Las recetas son deliciosas y fáciles de seguir. El seguimiento de progreso me mantuvo motivada cada día. ¡Ahora me siento más saludable y con más energía que nunca!"</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">CR</div>
+                        <div class="testimonial-info">
+                            <h4>Carlos Rodríguez</h4>
+                            <p class="testimonial-result">Perdió 22 kg en 6 meses</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Las calculadoras me ayudaron a entender exactamente qué necesitaba mi cuerpo. Combinado con las rutinas de ejercicio, los resultados fueron increíbles. ¡Gracias FitLife!"</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">AL</div>
+                        <div class="testimonial-info">
+                            <h4>Ana López</h4>
+                            <p class="testimonial-result">Perdió 10 kg en 3 meses</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"El planificador de comidas fue un cambio total. Ahora sé exactamente qué comer cada día. Las recetas saludables son tan buenas que toda mi familia las disfruta."</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">JM</div>
+                        <div class="testimonial-info">
+                            <h4>Juan Martínez</h4>
+                            <p class="testimonial-result">Perdió 18 kg en 5 meses</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Los consejos de motivación me ayudaron en los días difíciles. Esta plataforma tiene todo lo que necesitas para tener éxito. ¡100% recomendado!"</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">LF</div>
+                        <div class="testimonial-info">
+                            <h4>Laura Fernández</h4>
+                            <p class="testimonial-result">Perdió 12 kg en 4 meses</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Finalmente encontré un programa que funciona. Las herramientas son fáciles de usar y los resultados hablan por sí mismos. ¡Me siento fantástica!"</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">DP</div>
+                        <div class="testimonial-info">
+                            <h4>Diego Pérez</h4>
+                            <p class="testimonial-result">Perdió 25 kg en 7 meses</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"La variedad de recetas me mantuvo interesado. Nunca me aburrí de comer saludable. FitLife me dio las herramientas para transformar mi vida completamente."</p>
                 </div>
             </div>
         </div>
@@ -1092,282 +1433,12 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2024 FitLife - Your Weight Loss Journey. All rights reserved.</p>
-            <p style="margin-top: 10px; opacity: 0.8;">Transform your life, one healthy choice at a time.</p>
+            <p>&copy; 2024 FitLife - Tu Viaje de Pérdida de Peso. Todos los derechos reservados.</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Transforma tu vida, una elección saludable a la vez.</p>
         </div>
     </footer>
 
-    <script>
-        // Motivational Quotes
-        const quotes = [
-            "The only bad workout is the one that didn't happen.",
-            "Your body can stand almost anything. It's your mind you have to convince.",
-            "Don't wish for it, work for it.",
-            "Success is the sum of small efforts repeated day in and day out.",
-            "The difference between try and triumph is a little 'umph'.",
-            "Believe in yourself and all that you are.",
-            "Progress, not perfection.",
-            "You don't have to be extreme, just consistent.",
-            "The pain you feel today will be the strength you feel tomorrow.",
-            "Fall in love with taking care of yourself.",
-            "Your health is an investment, not an expense.",
-            "The body achieves what the mind believes.",
-            "Take care of your body. It's the only place you have to live.",
-            "You are stronger than you think.",
-            "Every accomplishment starts with the decision to try."
-        ];
-
-        function showRandomQuote() {
-            const quote = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById('motivationQuote').textContent = `"${quote}"`;
-        }
-
-        // BMI Calculator
-        function calculateBMI() {
-            const height = parseFloat(document.getElementById('bmi-height').value) / 100;
-            const weight = parseFloat(document.getElementById('bmi-weight').value);
-
-            if (!height || !weight) {
-                alert('Please enter both height and weight!');
-                return;
-            }
-
-            const bmi = (weight / (height * height)).toFixed(1);
-            let category = '';
-
-            if (bmi < 18.5) category = 'Underweight';
-            else if (bmi < 25) category = 'Normal weight';
-            else if (bmi < 30) category = 'Overweight';
-            else category = 'Obese';
-
-            document.getElementById('bmi-value').textContent = bmi;
-            document.getElementById('bmi-category').textContent = category;
-            document.getElementById('bmi-result').classList.add('show');
-        }
-
-        // Calorie Calculator
-        function calculateCalories() {
-            const age = parseFloat(document.getElementById('cal-age').value);
-            const gender = document.getElementById('cal-gender').value;
-            const weight = parseFloat(document.getElementById('cal-weight').value);
-            const height = parseFloat(document.getElementById('cal-height').value);
-            const activity = parseFloat(document.getElementById('cal-activity').value);
-
-            if (!age || !weight || !height) {
-                alert('Please fill in all fields!');
-                return;
-            }
-
-            let bmr;
-            if (gender === 'male') {
-                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
-            } else {
-                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
-            }
-
-            const tdee = Math.round(bmr * activity);
-            const lose = Math.round(tdee - 500);
-            const gain = Math.round(tdee + 300);
-
-            document.getElementById('cal-value').textContent = tdee;
-            document.getElementById('cal-lose').textContent = lose;
-            document.getElementById('cal-gain').textContent = gain;
-            document.getElementById('cal-result').classList.add('show');
-        }
-
-        // Macro Calculator
-        function calculateMacros() {
-            const calories = parseFloat(document.getElementById('macro-calories').value);
-            const goal = document.getElementById('macro-goal').value;
-
-            if (!calories) {
-                alert('Please enter your daily calories!');
-                return;
-            }
-
-            let proteinRatio, carbRatio, fatRatio;
-
-            if (goal === 'lose') {
-                proteinRatio = 0.40;
-                carbRatio = 0.30;
-                fatRatio = 0.30;
-            } else if (goal === 'maintain') {
-                proteinRatio = 0.33;
-                carbRatio = 0.33;
-                fatRatio = 0.33;
-            } else {
-                proteinRatio = 0.30;
-                carbRatio = 0.40;
-                fatRatio = 0.30;
-            }
-
-            const protein = Math.round((calories * proteinRatio) / 4);
-            const carbs = Math.round((calories * carbRatio) / 4);
-            const fats = Math.round((calories * fatRatio) / 9);
-
-            document.getElementById('macro-protein').textContent = protein;
-            document.getElementById('macro-carbs').textContent = carbs;
-            document.getElementById('macro-fats').textContent = fats;
-            document.getElementById('macro-result').classList.add('show');
-        }
-
-        // Water Calculator
-        function calculateWater() {
-            const weight = parseFloat(document.getElementById('water-weight').value);
-            const exercise = parseFloat(document.getElementById('water-exercise').value) || 0;
-
-            if (!weight) {
-                alert('Please enter your weight!');
-                return;
-            }
-
-            const baseWater = weight * 0.033;
-            const exerciseWater = (exercise / 30) * 0.35;
-            const totalWater = (baseWater + exerciseWater).toFixed(1);
-            const glasses = Math.round(totalWater * 4);
-
-            document.getElementById('water-value').textContent = totalWater + ' L';
-            document.getElementById('water-glasses').textContent = glasses;
-            document.getElementById('water-result').classList.add('show');
-        }
-
-        // Progress Tracker Functions
-        function loadData() {
-            return {
-                startWeight: localStorage.getItem('startWeight'),
-                goalWeight: localStorage.getItem('goalWeight'),
-                history: JSON.parse(localStorage.getItem('weightHistory') || '[]')
-            };
-        }
-
-        function saveData(key, value) {
-            localStorage.setItem(key, value);
-        }
-
-        function updateDisplay() {
-            const data = loadData();
-
-            if (data.startWeight && data.goalWeight) {
-                const current = data.history.length > 0
-                    ? data.history[data.history.length - 1].weight
-                    : data.startWeight;
-                const lost = data.startWeight - current;
-                const toGo = current - data.goalWeight;
-                const totalToLose = data.startWeight - data.goalWeight;
-                const progress = Math.min(Math.max((lost / totalToLose) * 100, 0), 100);
-
-                document.getElementById('currentWeight').textContent = current;
-                document.getElementById('goalWeight').textContent = data.goalWeight;
-                document.getElementById('weightLost').textContent = lost.toFixed(1);
-                document.getElementById('weightToGo').textContent = Math.max(toGo, 0).toFixed(1);
-                document.getElementById('progressBar').style.width = progress + '%';
-                document.getElementById('progressText').textContent = progress.toFixed(1) + '%';
-            }
-
-            updateHistory();
-        }
-
-        function setGoals() {
-            const startWeight = document.getElementById('startWeight').value;
-            const targetWeight = document.getElementById('targetWeight').value;
-
-            if (!startWeight || !targetWeight) {
-                alert('Please enter both starting and goal weight!');
-                return;
-            }
-
-            if (parseFloat(startWeight) <= parseFloat(targetWeight)) {
-                alert('Starting weight should be greater than goal weight!');
-                return;
-            }
-
-            saveData('startWeight', startWeight);
-            saveData('goalWeight', targetWeight);
-
-            const data = loadData();
-            if (data.history.length === 0) {
-                const history = [{
-                    date: new Date().toISOString(),
-                    weight: parseFloat(startWeight)
-                }];
-                saveData('weightHistory', JSON.stringify(history));
-            }
-
-            updateDisplay();
-            showRandomQuote();
-            alert('Goals set successfully! 🎯');
-        }
-
-        function logWeight() {
-            const weight = document.getElementById('currentWeightInput').value;
-
-            if (!weight) {
-                alert('Please enter your current weight!');
-                return;
-            }
-
-            const data = loadData();
-            if (!data.startWeight || !data.goalWeight) {
-                alert('Please set your goals first!');
-                return;
-            }
-
-            const history = data.history;
-            history.push({
-                date: new Date().toISOString(),
-                weight: parseFloat(weight)
-            });
-
-            saveData('weightHistory', JSON.stringify(history));
-            document.getElementById('currentWeightInput').value = '';
-            updateDisplay();
-            showRandomQuote();
-
-            const lost = data.startWeight - weight;
-            if (lost >= 5 && lost % 5 === 0) {
-                alert(`🎉 Congratulations! You've lost ${lost} lbs! Keep it up!`);
-            }
-        }
-
-        function updateHistory() {
-            const data = loadData();
-            const historyList = document.getElementById('historyList');
-
-            if (data.history.length === 0) {
-                historyList.innerHTML = '<p style="text-align: center; color: #888;">No entries yet. Start logging your weight!</p>';
-                return;
-            }
-
-            historyList.innerHTML = data.history
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .map((entry, index) => `
-                    <div class="history-item">
-                        <div>
-                            <div class="history-weight">${entry.weight} lbs</div>
-                            <div class="history-date">${new Date(entry.date).toLocaleDateString()}</div>
-                        </div>
-                        <button class="delete-btn" onclick="deleteEntry(${data.history.length - 1 - index})">Delete</button>
-                    </div>
-                `).join('');
-        }
-
-        function deleteEntry(index) {
-            if (!confirm('Are you sure you want to delete this entry?')) {
-                return;
-            }
-
-            const data = loadData();
-            data.history.splice(index, 1);
-            saveData('weightHistory', JSON.stringify(data.history));
-            updateDisplay();
-        }
-
-        // Initialize
-        window.onload = function() {
-            updateDisplay();
-            showRandomQuote();
-            setInterval(showRandomQuote, 15000);
-        };
-    </script>
+    <script src="recipes-data.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
