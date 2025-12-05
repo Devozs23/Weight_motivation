@@ -88,12 +88,56 @@
         /* Footer */
         .footer { background: var(--dark); color: white; padding: 2rem 0; text-align: center; margin-top: 4rem; }
         
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; overflow-y: auto; padding: 2rem; }
+        .modal.active { display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: white; border-radius: 20px; max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
+        .modal-header { position: sticky; top: 0; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 2rem; border-radius: 20px 20px 0 0; z-index: 1; }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; transition: all 0.3s; }
+        .modal-close:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
+        .modal-body { padding: 2rem; }
+        .nutrition-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0; }
+        .nutrition-item { text-align: center; padding: 1rem; background: var(--light); border-radius: 12px; }
+        .nutrition-value { font-size: 2rem; font-weight: 700; color: var(--primary); }
+        .recipe-section { margin: 2rem 0; }
+        .recipe-section h3 { color: var(--dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .ingredient-item, .instruction-item { padding: 0.75rem; margin: 0.5rem 0; background: var(--light); border-radius: 8px; display: flex; align-items: start; gap: 0.5rem; }
+        .ingredient-item:before { content: '✓'; color: var(--success); font-weight: bold; }
+        .instruction-item { background: white; border-left: 4px solid var(--primary); }
+        .step-number { background: var(--primary); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; flex-shrink: 0; }
+
+        /* Chatbot */
+        .chat-button { position: fixed; bottom: 2rem; right: 2rem; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4); z-index: 1000; transition: all 0.3s; }
+        .chat-button:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(102, 126, 234, 0.6); }
+        .chat-window { position: fixed; bottom: 100px; right: 2rem; width: 380px; height: 550px; background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 999; display: none; flex-direction: column; }
+        .chat-window.active { display: flex; }
+        .chat-header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 1.5rem; border-radius: 20px 20px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+        .chat-message { padding: 1rem; border-radius: 12px; max-width: 85%; animation: slideIn 0.3s; }
+        .chat-message.bot { background: var(--light); align-self: flex-start; }
+        .chat-message.user { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; align-self: flex-end; }
+        .chat-input-container { padding: 1rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; }
+        .chat-input { flex: 1; padding: 0.75rem; border: 2px solid var(--border); border-radius: 25px; font-size: 0.95rem; }
+        .chat-input:focus { outline: none; border-color: var(--primary); }
+        .chat-send { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
+        .chat-suggestions { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0 1.5rem 1rem; }
+        .chat-suggestion { background: var(--light); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; cursor: pointer; border: 1px solid var(--border); transition: all 0.3s; }
+        .chat-suggestion:hover { background: var(--primary); color: white; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Tips Banner */
+        .tips-banner { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 1.5rem; text-align: center; font-size: 1.1rem; font-weight: 500; margin-top: 80px; animation: fadeIn 1s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
         /* Responsive */
         @media (max-width: 968px) {
             .nav-menu { display: none; }
             .hero-title { font-size: 2.5rem; }
             .hero-stats { grid-template-columns: 1fr; }
             .features-grid, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .nutrition-grid { grid-template-columns: repeat(2, 1fr); }
+            .chat-window { width: calc(100% - 2rem); right: 1rem; }
+            .modal { padding: 0.5rem; }
         }
     </style>
 </head>
@@ -178,6 +222,9 @@
 
     <!-- CALCULATORS SECTION -->
     <div id="calculators-section" class="page-section">
+        <div class="tips-banner" id="daily-tip">
+            💡 Tip del día: ¡Cargando consejo motivacional!
+        </div>
         <div class="section-hero">
             <h1><i class="fas fa-calculator"></i> Calculadoras de Salud</h1>
             <p>Herramientas científicas para calcular tu IMC, calorías diarias y más</p>
@@ -246,6 +293,34 @@
                 </form>
                 <div id="cal-result" style="margin-top: 2rem;"></div>
             </div>
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-tint"></i> Calculadora de Agua Diaria</h2>
+                <form onsubmit="calculateWater(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" step="0.1" id="water-weight" required placeholder="70">
+                        </div>
+                        <div class="form-group">
+                            <label>Nivel de Actividad</label>
+                            <select id="water-activity" required>
+                                <option value="low">Sedentario</option>
+                                <option value="moderate">Moderado</option>
+                                <option value="high">Alto</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Clima</label>
+                            <select id="water-climate" required>
+                                <option value="normal">Normal</option>
+                                <option value="hot">Caluroso</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary"><i class="fas fa-calculator"></i> Calcular Agua</button>
+                </form>
+                <div id="water-result" style="margin-top: 2rem;"></div>
+            </div>
         </div>
     </div>
 
@@ -310,6 +385,47 @@
         </div>
         <div class="container section-content">
             <div id="planner-content"></div>
+        </div>
+    </div>
+
+    <!-- Recipe Modal -->
+    <div id="recipe-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-recipe-title"></h2>
+                <button class="modal-close" onclick="closeRecipeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modal-recipe-body"></div>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <button class="chat-button" onclick="toggleChat()" id="chat-btn">
+        <i class="fas fa-comments"></i>
+    </button>
+    <div class="chat-window" id="chat-window">
+        <div class="chat-header">
+            <div>
+                <h3 style="margin: 0;">💬 Asistente FitLife</h3>
+                <p style="margin: 0; font-size: 0.85rem; opacity: 0.9;">Pregúntame lo que quieras</p>
+            </div>
+            <button class="modal-close" onclick="toggleChat()" style="position: static;">×</button>
+        </div>
+        <div class="chat-suggestions">
+            <div class="chat-suggestion" onclick="askQuestion('¿Cuánta agua debo tomar?')">💧 ¿Cuánta agua?</div>
+            <div class="chat-suggestion" onclick="askQuestion('¿Cómo perder peso rápido?')">🏃 Perder peso</div>
+            <div class="chat-suggestion" onclick="askQuestion('¿Qué alimentos evitar?')">🍔 Qué evitar</div>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="chat-message bot">
+                ¡Hola! 👋 Soy tu asistente de FitLife Pro. Pregúntame sobre nutrición, ejercicio, pérdida de peso y más.
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Escribe tu pregunta..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button class="chat-send" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
         </div>
     </div>
 
@@ -383,6 +499,40 @@
                     <p><strong>Metabolismo Basal (BMR):</strong> ${Math.round(bmr)} cal/día</p>
                     <p><strong>Gasto Total (TDEE):</strong> ${tdee} cal/día</p>
                     <p style="font-size: 1.2rem; margin-top: 1rem;"><strong>Calorías Objetivo:</strong> ${target} cal/día</p>
+                </div>
+            `;
+        }
+
+        function calculateWater(e) {
+            e.preventDefault();
+            const weight = parseFloat(document.getElementById('water-weight').value);
+            const activity = document.getElementById('water-activity').value;
+            const climate = document.getElementById('water-climate').value;
+
+            let baseWater = weight * 35; // ml por kg
+
+            if (activity === 'moderate') baseWater *= 1.2;
+            else if (activity === 'high') baseWater *= 1.4;
+
+            if (climate === 'hot') baseWater *= 1.15;
+
+            const liters = (baseWater / 1000).toFixed(1);
+            const glasses = Math.round(baseWater / 250);
+
+            document.getElementById('water-result').innerHTML = `
+                <div style="padding: 2rem; background: linear-gradient(135deg, #4facfe22, #00f2fe22); border-radius: 8px; border-left: 4px solid #4facfe;">
+                    <h3 style="color: #4facfe; margin-bottom: 1rem;">💧 Tu Objetivo de Hidratación</h3>
+                    <p style="font-size: 2rem; font-weight: 700; color: #4facfe; margin: 1rem 0;">${liters} Litros al día</p>
+                    <p style="font-size: 1.2rem; margin: 0.5rem 0;">Equivalente a <strong>${glasses} vasos</strong> de agua (250ml c/u)</p>
+                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #4facfe33;">
+                        <p><strong>💡 Tips de hidratación:</strong></p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li>Bebe un vaso de agua al despertar</li>
+                            <li>Lleva una botella contigo siempre</li>
+                            <li>Bebe agua antes de cada comida</li>
+                            <li>Si tu orina es amarillo oscuro, necesitas más agua</li>
+                        </ul>
+                    </div>
                 </div>
             `;
         }
@@ -958,14 +1108,82 @@ const recipes = [
         function loadRecipes() {
             const grid = document.getElementById('recipes-grid');
             grid.innerHTML = recipes.map(r => `
-                <div class="card" style="cursor: pointer;">
+                <div class="card" style="cursor: pointer;" onclick="openRecipeModal(${r.id})">
                     <img src="${r.image}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
                     <h3>${r.title}</h3>
                     <p style="color: var(--text-light); margin: 0.5rem 0;"><i class="fas fa-clock"></i> ${r.time} | <i class="fas fa-fire"></i> ${r.calories} cal</p>
                     <p style="margin: 1rem 0;"><strong>Proteína:</strong> ${r.nutrition.protein} | <strong>Dificultad:</strong> ${r.difficulty}</p>
+                    <button class="btn-primary" style="width: 100%; margin-top: 1rem;">Ver Receta Completa <i class="fas fa-arrow-right"></i></button>
                 </div>
             `).join('');
             window.recipesLoaded = true;
+        }
+
+        function openRecipeModal(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (!recipe) return;
+
+            document.getElementById('modal-recipe-title').innerHTML = `${recipe.title}`;
+            document.getElementById('modal-recipe-body').innerHTML = `
+                <img src="${recipe.image}" style="width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 2rem;">
+
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                    <div style="background: var(--light); padding: 0.75rem 1.5rem; border-radius: 8px;">
+                        <i class="fas fa-clock"></i> ${recipe.time}
+                    </div>
+                    <div style="background: var(--light); padding: 0.75rem 1.5rem; border-radius: 8px;">
+                        <i class="fas fa-fire"></i> ${recipe.calories} calorías
+                    </div>
+                    <div style="background: var(--light); padding: 0.75rem 1.5rem; border-radius: 8px;">
+                        <i class="fas fa-signal"></i> ${recipe.difficulty}
+                    </div>
+                </div>
+
+                <div class="nutrition-grid">
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">${recipe.nutrition.protein}</div>
+                        <div>Proteína</div>
+                    </div>
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">${recipe.nutrition.carbs}</div>
+                        <div>Carbos</div>
+                    </div>
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">${recipe.nutrition.fat}</div>
+                        <div>Grasas</div>
+                    </div>
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">${recipe.nutrition.fiber}</div>
+                        <div>Fibra</div>
+                    </div>
+                </div>
+
+                <div class="recipe-section">
+                    <h3><i class="fas fa-shopping-basket"></i> Ingredientes</h3>
+                    ${recipe.ingredients.map(ing => `<div class="ingredient-item">${ing}</div>`).join('')}
+                </div>
+
+                <div class="recipe-section">
+                    <h3><i class="fas fa-list-ol"></i> Instrucciones</h3>
+                    ${recipe.instructions.map((inst, i) => `
+                        <div class="instruction-item">
+                            <div class="step-number">${i + 1}</div>
+                            <div>${inst}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="recipe-section">
+                    <h3><i class="fas fa-lightbulb"></i> Tips de Meal Prep</h3>
+                    ${recipe.mealPrepTips.map(tip => `<div class="ingredient-item">${tip}</div>`).join('')}
+                </div>
+            `;
+
+            document.getElementById('recipe-modal').classList.add('active');
+        }
+
+        function closeRecipeModal() {
+            document.getElementById('recipe-modal').classList.remove('active');
         }
 
         // ==================== EXERCISES ====================
@@ -1095,10 +1313,131 @@ const recipes = [
             window.plannerLoaded = true;
         }
 
+        // ==================== CHATBOT ====================
+        function toggleChat() {
+            const chatWindow = document.getElementById('chat-window');
+            chatWindow.classList.toggle('active');
+            if (chatWindow.classList.contains('active')) {
+                document.getElementById('chat-input').focus();
+            }
+        }
+
+        function askQuestion(question) {
+            document.getElementById('chat-input').value = question;
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const messagesContainer = document.getElementById('chat-messages');
+
+            // Add user message
+            messagesContainer.innerHTML += `<div class="chat-message user">${message}</div>`;
+            input.value = '';
+
+            // Get AI response
+            setTimeout(() => {
+                const response = getAIResponse(message);
+                messagesContainer.innerHTML += `<div class="chat-message bot">${response}</div>`;
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 500);
+        }
+
+        function getAIResponse(question) {
+            const q = question.toLowerCase();
+
+            // Base de conocimientos de nutrición y pérdida de peso
+            if (q.includes('agua') || q.includes('hidrat')) {
+                return '💧 Debes tomar aproximadamente 35ml de agua por kg de peso corporal. Usa nuestra <strong>Calculadora de Agua</strong> en la sección de Calculadoras para obtener tu objetivo personalizado. El agua ayuda a acelerar el metabolismo y reduce el hambre.';
+            }
+            else if (q.includes('perder peso') || q.includes('bajar') || q.includes('adelgazar')) {
+                return '🎯 Para perder peso de forma saludable:<br>1. Crea un déficit calórico de 500 cal/día (pierde ~0.5kg/semana)<br>2. Come más proteína (mantiene saciedad)<br>3. Haz ejercicio 3-4 veces por semana<br>4. Duerme 7-8 horas<br>5. Usa nuestro <strong>Tracker de Progreso</strong> para seguimiento.';
+            }
+            else if (q.includes('proteína') || q.includes('proteina')) {
+                return '🥩 La proteína es esencial para perder peso:<br>• Objetivo: 1.6-2.2g por kg de peso<br>• Aumenta saciedad y metabolismo<br>• Preserva masa muscular<br>• Fuentes: pollo, pescado, huevos, legumbres, yogur griego<br>Mira nuestras <strong>Recetas</strong> ricas en proteína.';
+            }
+            else if (q.includes('ejercicio') || q.includes('entrenar')) {
+                return '💪 Plan de ejercicio para pérdida de peso:<br>• 3x semana: Entrenamiento de fuerza (preserva músculo)<br>• 2-3x semana: Cardio moderado (20-30 min)<br>• Camina 10,000 pasos diarios<br>• Descansa 1-2 días<br>Explora nuestra sección de <strong>Ejercicios</strong> con 12 rutinas.';
+            }
+            else if (q.includes('evitar') || q.includes('no comer')) {
+                return '🚫 Alimentos a limitar para perder peso:<br>• Azúcares añadidos y refrescos<br>• Frituras y ultraprocesados<br>• Alcohol (calorías vacías)<br>• Panes blancos y harinas refinadas<br>✅ Enfócate en: vegetales, proteínas magras, granos enteros, frutas.';
+            }
+            else if (q.includes('imc') || q.includes('índice')) {
+                return '📊 El IMC (Índice de Masa Corporal) relaciona tu peso y altura:<br>• Bajo peso: <18.5<br>• Normal: 18.5-24.9<br>• Sobrepeso: 25-29.9<br>• Obesidad: ≥30<br>Usa nuestra <strong>Calculadora de IMC</strong> para calcular el tuyo y saber cuántos kg te faltan para tu peso ideal.';
+            }
+            else if (q.includes('calorías') || q.includes('calorias')) {
+                return '🔥 Calorías para perder peso:<br>1. Calcula tu TDEE (gasto calórico total)<br>2. Resta 500 cal para perder ~0.5kg/semana<br>3. No bajes de 1200 cal (mujeres) o 1500 cal (hombres)<br>Usa nuestra <strong>Calculadora de Calorías</strong> para tu plan personalizado.';
+            }
+            else if (q.includes('carbohidrato') || q.includes('carbs')) {
+                return '🍚 Carbohidratos en pérdida de peso:<br>• No son el enemigo - elige los correctos<br>• Prefiere: avena, arroz integral, quinoa, batata<br>• Evita: azúcares, harinas blancas, dulces<br>• Objetivo: 40-50% de tus calorías<br>• Consúmelos después de entrenar';
+            }
+            else if (q.includes('dormir') || q.includes('sueño')) {
+                return '😴 El sueño es crucial para perder peso:<br>• 7-8 horas por noche es óptimo<br>• Poco sueño aumenta cortisol (hormona del estrés)<br>• Más hambre al día siguiente<br>• Peor recuperación muscular<br>• Afecta metabolismo hasta 20%';
+            }
+            else if (q.includes('ayuno') || q.includes('intermitente')) {
+                return '⏰ Ayuno intermitente:<br>• 16:8 es el más popular (16h ayuno, 8h comida)<br>• Ayuda a crear déficit calórico<br>• No es mágico - las calorías siguen importando<br>• Bueno si te funciona, no obligatorio<br>• Mantén hidratación durante ayuno';
+            }
+            else if (q.includes('receta') || q.includes('comida')) {
+                return '🍽️ Tenemos <strong>15 recetas deliciosas</strong> para pérdida de peso:<br>• Ensaladas con proteína<br>• Buddha bowls nutritivos<br>• Salmón y pescado<br>• Smoothie bowls<br>• Todas con info nutricional completa<br>Ve a la sección de <strong>Recetas</strong> y haz clic en cualquiera para ver ingredientes y preparación.';
+            }
+            else if (q.includes('motivación') || q.includes('motivacion') || q.includes('ayuda')) {
+                return '💪 Consejos de motivación:<br>1. Establece metas pequeñas y alcanzables<br>2. Toma fotos de progreso (más importantes que la báscula)<br>3. Celebra cada logro pequeño<br>4. Ten un "por qué" fuerte<br>5. No busques perfección, busca consistencia<br>🌟 Usa nuestro <strong>Tracker</strong> para ver tu progreso visual.';
+            }
+            else if (q.includes('plato') || q.includes('porción')) {
+                return '🍽️ Método del plato saludable:<br>• 50% vegetales (brócoli, espinaca, etc)<br>• 25% proteína magra (pollo, pescado, tofu)<br>• 25% carbohidratos complejos (arroz integral, quinoa)<br>• 1 cucharada de grasa saludable (aceite oliva, aguacate)';
+            }
+            else if (q.includes('hola') || q.includes('buenos') || q.includes('hi')) {
+                return '¡Hola! 👋 Soy tu asistente de FitLife Pro. Puedo ayudarte con:<br>• Nutrición y dietas<br>• Ejercicio y rutinas<br>• Pérdida de peso saludable<br>• Cálculo de calorías, IMC, agua<br>• Recetas saludables<br>¿Qué te gustaría saber?';
+            }
+            else {
+                return '🤔 Interesante pregunta. Puedo ayudarte con:<br>• Pérdida de peso y nutrición<br>• Ejercicios y rutinas<br>• Calculadoras (IMC, calorías, agua)<br>• Recetas saludables<br>• Tips de motivación<br><br>Intenta preguntar algo como "¿Cómo perder peso?" o "¿Cuánta agua tomar?"';
+            }
+        }
+
+        // ==================== DAILY TIPS ====================
+        const dailyTips = [
+            '💧 Bebe un vaso de agua al despertar - activa tu metabolismo hasta 24%',
+            '🥗 Come proteína en cada comida - mantiene la saciedad y quema más calorías',
+            '🚶 Camina 10,000 pasos diarios - quema 300-400 calorías extras',
+            '😴 Duerme 7-8 horas - el sueño deficiente aumenta el hambre hasta 25%',
+            '🥑 Incluye grasas saludables - aguacate y nueces ayudan a absorber vitaminas',
+            '🍽️ Come despacio y mastica bien - tu cerebro tarda 20 min en sentir saciedad',
+            '📊 Pésate solo 1 vez por semana - el peso fluctúa diariamente hasta 2kg',
+            '🏋️ Entrena fuerza 3x semana - el músculo quema calorías incluso en reposo',
+            '🥤 Evita bebidas azucaradas - tienen calorías vacías sin saciar',
+            '📝 Planifica tus comidas - reduces decisiones impulsivas y comes mejor',
+            '🍎 Snackea frutas y vegetales - volumen alto, calorías bajas',
+            '⏰ No saltes comidas - causa hambre extrema y mala toma de decisiones',
+            '🧘 Reduce el estrés - el cortisol alto promueve acumulación de grasa',
+            '📸 Toma fotos de progreso - más importantes que el número en la báscula',
+            '🎯 Establece metas realistas - 0.5-1kg por semana es saludable y sostenible',
+            '🥦 Llena la mitad del plato con vegetales - alto volumen, bajas calorías',
+            '💪 La consistencia vence la perfección - 80% bien es mejor que 100% imposible',
+            '🌊 Bebe agua antes de comer - puede reducir el hambre hasta 20%',
+            '🏃 HIIT 2x semana - 20 minutos queman más que 40 de cardio tradicional',
+            '🍳 Desayuna proteína - reduce antojos durante el día hasta 60%'
+        ];
+
+        function showRandomTip() {
+            const tip = dailyTips[Math.floor(Math.random() * dailyTips.length)];
+            const tipElement = document.getElementById('daily-tip');
+            if (tipElement) {
+                tipElement.innerHTML = tip;
+            }
+        }
+
         // ==================== INITIALIZATION ====================
         document.getElementById('entry-date').valueAsDate = new Date();
         updateStats();
         drawChart();
+        showRandomTip();
+
+        // Change tip every 10 seconds
+        setInterval(showRandomTip, 10000);
+
         console.log('✅ FitLife Pro - Single Page App - COMPLETO!');
     </script>
 </body>
