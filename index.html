@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLife Pro - Transforma Tu Vida | Sistema Completo de Pérdida de Peso</title>
-    <meta name="description" content="La plataforma más completa para perder peso de forma saludable. Recetas, ejercicios, seguimiento y calculadoras personalizadas.">
+    <title>FitLife Pro - Plataforma Completa de Pérdida de Peso</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -25,11 +24,12 @@
             --text: #333;
             --text-light: #6b7280;
             --border: #e5e7eb;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
         html {
             scroll-behavior: smooth;
-            font-size: 16px;
         }
 
         body {
@@ -52,7 +52,7 @@
             left: 0;
             right: 0;
             background: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             z-index: 1000;
         }
 
@@ -72,10 +72,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
-        }
-
-        .nav-logo i {
-            font-size: 1.8rem;
+            cursor: pointer;
         }
 
         .pro-badge {
@@ -93,67 +90,106 @@
             gap: 2rem;
         }
 
-        .nav-menu a {
+        .nav-menu li {
+            cursor: pointer;
             color: var(--text);
-            text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
+            position: relative;
         }
 
-        .nav-menu a:hover,
-        .nav-menu a.active {
+        .nav-menu li:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-menu li:hover,
+        .nav-menu li.active {
             color: var(--primary);
         }
 
+        .nav-menu li:hover:after,
+        .nav-menu li.active:after {
+            width: 100%;
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Buttons */
+        .btn-primary,
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
         .btn-primary {
-            padding: 0.6rem 1.5rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .btn-large {
             padding: 1rem 2rem;
             font-size: 1.1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Hero */
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            padding-top: 80px;
+            color: white;
             position: relative;
             overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            background-image:
+                radial-gradient(circle at 20% 50%, white 1px, transparent 1px),
+                radial-gradient(circle at 80% 80%, white 1px, transparent 1px);
+            background-size: 50px 50px;
         }
 
         .hero-content {
             position: relative;
             z-index: 1;
             text-align: center;
-            color: white;
             max-width: 900px;
             margin: 0 auto;
             padding: 2rem;
@@ -168,6 +204,7 @@
             padding: 0.5rem 1rem;
             border-radius: 50px;
             margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease;
         }
 
         .hero-title {
@@ -175,6 +212,7 @@
             font-weight: 800;
             margin-bottom: 1.5rem;
             line-height: 1.2;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
         }
 
         .gradient-text {
@@ -188,7 +226,7 @@
             font-size: 1.3rem;
             margin-bottom: 2.5rem;
             opacity: 0.95;
-            line-height: 1.8;
+            animation: fadeInUp 0.8s ease 0.4s backwards;
         }
 
         .hero-cta {
@@ -196,6 +234,7 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.6s backwards;
         }
 
         .hero-stats {
@@ -205,6 +244,7 @@
             margin-top: 4rem;
             padding-top: 3rem;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.8s ease 0.8s backwards;
         }
 
         .stat-item {
@@ -222,8 +262,9 @@
             opacity: 0.9;
         }
 
-        /* Sections */
-        section {
+        /* Features Section */
+        .features {
+            background: white;
             padding: 6rem 0;
         }
 
@@ -257,11 +298,6 @@
             line-height: 1.8;
         }
 
-        /* Features */
-        .features {
-            background: white;
-        }
-
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -274,11 +310,29 @@
             border-radius: 16px;
             padding: 2rem;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s;
         }
 
         .feature-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-card:hover:before {
+            transform: scaleX(1);
         }
 
         .feature-icon {
@@ -313,253 +367,37 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            cursor: pointer;
+            transition: gap 0.3s;
         }
 
-        /* Steps */
-        .how-it-works {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e5e7eb 100%);
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .step {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            position: relative;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .step-number {
-            position: absolute;
-            top: -20px;
-            left: 2rem;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .step-content h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            margin-top: 1rem;
-            color: var(--dark);
-        }
-
-        .step-content p {
-            color: var(--text-light);
-            line-height: 1.7;
-        }
-
-        .cta-center {
-            text-align: center;
-            margin-top: 3rem;
-        }
-
-        /* Testimonials */
-        .testimonials {
-            background: white;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .testimonial {
-            background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
-            border-radius: 16px;
-            padding: 2rem;
-            border: 1px solid var(--border);
-        }
-
-        .testimonial-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .testimonial-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 3px solid var(--primary);
-        }
-
-        .testimonial-info h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-            color: var(--dark);
-        }
-
-        .testimonial-weight {
-            display: flex;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .weight-lost {
-            color: var(--success);
-            font-weight: 700;
-        }
-
-        .weight-time {
-            color: var(--text-light);
-        }
-
-        .testimonial-rating {
-            color: #fbbf24;
-            font-size: 0.9rem;
-        }
-
-        .testimonial-text {
-            color: var(--text-light);
-            line-height: 1.8;
-            font-style: italic;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            text-align: center;
-            padding: 5rem 2rem;
-        }
-
-        .cta-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .cta-content p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.95;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-outline {
-            background: white;
-            color: var(--primary);
-            border: 2px solid white;
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--dark);
-            color: white;
-            padding: 4rem 0 2rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .footer-col p {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-
-        .social-links {
-            display: flex;
+        .feature-link:hover {
             gap: 1rem;
         }
 
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .social-links a:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .footer-col h4 {
-            margin-bottom: 1rem;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 0.7rem;
-        }
-
-        .footer-col ul a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-        }
-
-        .footer-col ul a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .footer-bottom p {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-        }
-
+        /* Responsive */
         @media (max-width: 968px) {
             .nav-menu {
                 display: none;
@@ -577,10 +415,18 @@
             .features-grid {
                 grid-template-columns: 1fr;
             }
+        }
 
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.7);
         }
     </style>
 </head>
@@ -588,377 +434,255 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
+            <div class="nav-logo" onclick="showSection('home')">
                 <i class="fas fa-heartbeat"></i>
                 <span>FitLife <span class="pro-badge">PRO</span></span>
             </div>
             <ul class="nav-menu">
-                <li><a href="index.html" class="active">Inicio</a></li>
-                <li><a href="calculators.html">Calculadoras</a></li>
-                <li><a href="recipes.html">Recetas</a></li>
-                <li><a href="exercises.html">Ejercicios</a></li>
-                <li><a href="tracker.html">Mi Progreso</a></li>
-                <li><a href="meal-planner.html">Planificador</a></li>
+                <li class="active" onclick="showSection('home')" data-section="home">Inicio</li>
+                <li onclick="showSection('calculators')" data-section="calculators">Calculadoras</li>
+                <li onclick="showSection('recipes')" data-section="recipes">Recetas</li>
+                <li onclick="showSection('exercises')" data-section="exercises">Ejercicios</li>
+                <li onclick="showSection('tracker')" data-section="tracker">Mi Progreso</li>
+                <li onclick="showSection('planner')" data-section="planner">Planificador</li>
             </ul>
-            <div class="nav-cta">
-                <a href="tracker.html" class="btn-primary">Comenzar Ahora</a>
-            </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fas fa-star"></i>
-                <span>Más de 50,000 personas transformadas</span>
-            </div>
-            <h1 class="hero-title">
-                Transforma Tu Cuerpo,<br>
-                <span class="gradient-text">Transforma Tu Vida</span>
-            </h1>
-            <p class="hero-subtitle">
-                La plataforma más completa para alcanzar tus objetivos de pérdida de peso de forma saludable,
-                sostenible y respaldada por la ciencia.
-            </p>
-            <div class="hero-cta">
-                <a href="calculators.html" class="btn-large btn-primary">
-                    <i class="fas fa-calculator"></i>
-                    Calcular Mi Plan
-                </a>
-                <a href="#features" class="btn-large btn-primary btn-secondary">
-                    <i class="fas fa-play-circle"></i>
-                    Ver Cómo Funciona
-                </a>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <div class="stat-number" id="stat1">50,000</div>
-                    <div class="stat-label">Usuarios Activos</div>
+    <!-- HOME SECTION -->
+    <div id="home-section" class="page-section active">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-background"></div>
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Plataforma #1 en Pérdida de Peso</span>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="stat2">2,500,000</div>
-                    <div class="stat-label">Kg Perdidos en Total</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="stat3">4.9</div>
-                    <div class="stat-label">Rating Promedio</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">¿Por Qué Elegirnos?</span>
-                <h2 class="section-title">Todo Lo Que Necesitas Para Tener Éxito</h2>
-                <p class="section-subtitle">
-                    Una plataforma integral diseñada por expertos en nutrición y fitness para garantizar
-                    tu éxito en la pérdida de peso
+                <h1 class="hero-title">
+                    Transforma Tu Vida Con<br>
+                    <span class="gradient-text">FitLife Pro</span>
+                </h1>
+                <p class="hero-subtitle">
+                    El sistema completo para perder peso de forma saludable y sostenible.
+                    Recetas, ejercicios, seguimiento personalizado y calculadoras científicas.
                 </p>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
+                <div class="hero-cta">
+                    <button class="btn-primary btn-large" onclick="showSection('calculators')">
                         <i class="fas fa-calculator"></i>
-                    </div>
-                    <h3>Calculadoras Avanzadas</h3>
-                    <p>6 calculadoras profesionales con análisis personalizado y recomendaciones específicas basadas en tus datos.</p>
-                    <a href="calculators.html" class="feature-link">
-                        Explorar Calculadoras <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <h3>15+ Recetas Saludables</h3>
-                    <p>Recetas deliciosas con fotos reales, información nutricional completa e instrucciones paso a paso.</p>
-                    <a href="recipes.html" class="feature-link">
-                        Ver Recetas <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-dumbbell"></i>
-                    </div>
-                    <h3>Biblioteca de Ejercicios</h3>
-                    <p>Rutinas completas para todos los niveles con videos instructivos y conteo de calorías quemadas.</p>
-                    <a href="exercises.html" class="feature-link">
-                        Explorar Ejercicios <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
+                        Calcular Mi Plan
+                    </button>
+                    <button class="btn-primary btn-large" onclick="showSection('tracker')">
                         <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Seguimiento Avanzado</h3>
-                    <p>Rastrea tu progreso con gráficos interactivos, métricas detalladas y análisis de tendencias.</p>
-                    <a href="tracker.html" class="feature-link">
-                        Ver Mi Progreso <i class="fas fa-arrow-right"></i>
-                    </a>
+                        Comenzar Ahora
+                    </button>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-calendar-alt"></i>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">50,000+</div>
+                        <div class="stat-label">Usuarios Activos</div>
                     </div>
-                    <h3>Planificador de Comidas</h3>
-                    <p>Planifica tu semana completa con nuestro sistema inteligente de meal prep y listas de compras.</p>
-                    <a href="meal-planner.html" class="feature-link">
-                        Planificar Comidas <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-brain"></i>
+                    <div class="stat-item">
+                        <div class="stat-number">2.5M kg</div>
+                        <div class="stat-label">Peso Perdido</div>
                     </div>
-                    <h3>Análisis Inteligente</h3>
-                    <p>Recibe recomendaciones personalizadas basadas en tu IMC, objetivos y progreso actual.</p>
-                    <a href="calculators.html" class="feature-link">
-                        Obtener Análisis <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="how-it-works">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Proceso Simple</span>
-                <h2 class="section-title">Tu Viaje en 4 Pasos</h2>
-                <p class="section-subtitle">
-                    Un sistema comprobado que ha ayudado a miles a alcanzar sus metas
-                </p>
-            </div>
-
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Calcula Tus Métricas</h3>
-                        <p>Usa nuestras calculadoras avanzadas para conocer tu IMC, necesidades calóricas, macros ideales y más.</p>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Recibe Tu Plan Personalizado</h3>
-                        <p>Obtén recomendaciones específicas sobre cuánto debes comer, qué ejercicios hacer y objetivos realistas.</p>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Sigue Tu Plan</h3>
-                        <p>Explora nuestras recetas, rutinas de ejercicio y planifica tus comidas semanales con facilidad.</p>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>Rastrea Tu Progreso</h3>
-                        <p>Monitorea tu evolución con gráficos detallados y ajusta tu plan según tus resultados.</p>
+                    <div class="stat-item">
+                        <div class="stat-number">4.9★</div>
+                        <div class="stat-label">Calificación</div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="cta-center">
-                <a href="calculators.html" class="btn-large btn-primary">
-                    <i class="fas fa-rocket"></i>
-                    Comenzar Mi Transformación
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="testimonials">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Historias Reales</span>
-                <h2 class="section-title">Miles de Vidas Transformadas</h2>
-                <p class="section-subtitle">
-                    Lee las historias inspiradoras de personas como tú que lograron sus objetivos
-                </p>
-            </div>
-
-            <div class="testimonials-grid">
-                <div class="testimonial">
-                    <div class="testimonial-header">
-                        <img src="https://i.pravatar.cc/100?img=5" alt="María González" class="testimonial-avatar">
-                        <div class="testimonial-info">
-                            <h4>María González</h4>
-                            <div class="testimonial-weight">
-                                <span class="weight-lost">-18 kg</span>
-                                <span class="weight-time">en 5 meses</span>
-                            </div>
-                        </div>
-                        <div class="testimonial-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="testimonial-text">
-                        "Las calculadoras me ayudaron a entender exactamente qué necesitaba mi cuerpo.
-                        El análisis personalizado fue un cambio total. ¡Finalmente entiendo cómo funciona la nutrición!"
+        <!-- Features -->
+        <section class="features">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">Características</div>
+                    <h2 class="section-title">Todo Lo Que Necesitas En Un Solo Lugar</h2>
+                    <p class="section-subtitle">
+                        Herramientas profesionales diseñadas por expertos en nutrición y fitness
                     </p>
                 </div>
-
-                <div class="testimonial">
-                    <div class="testimonial-header">
-                        <img src="https://i.pravatar.cc/100?img=12" alt="Carlos Rodríguez" class="testimonial-avatar">
-                        <div class="testimonial-info">
-                            <h4>Carlos Rodríguez</h4>
-                            <div class="testimonial-weight">
-                                <span class="weight-lost">-25 kg</span>
-                                <span class="weight-time">en 7 meses</span>
-                            </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calculator"></i>
                         </div>
-                        <div class="testimonial-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
+                        <h3>Calculadoras Personalizadas</h3>
+                        <p>Calcula tu IMC, calorías diarias, macros y más. Análisis personalizado que te dice exactamente cuánto necesitas perder.</p>
+                        <span class="feature-link" onclick="showSection('calculators')">
+                            Ir a Calculadoras <i class="fas fa-arrow-right"></i>
+                        </span>
                     </div>
-                    <p class="testimonial-text">
-                        "Los gráficos de progreso me mantuvieron motivado cada día. Ver mi evolución en números
-                        y visualizaciones me dio la confianza para seguir adelante."
-                    </p>
-                </div>
-
-                <div class="testimonial">
-                    <div class="testimonial-header">
-                        <img src="https://i.pravatar.cc/100?img=20" alt="Ana López" class="testimonial-avatar">
-                        <div class="testimonial-info">
-                            <h4>Ana López</h4>
-                            <div class="testimonial-weight">
-                                <span class="weight-lost">-12 kg</span>
-                                <span class="weight-time">en 4 meses</span>
-                            </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-utensils"></i>
                         </div>
-                        <div class="testimonial-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
+                        <h3>15 Recetas Saludables</h3>
+                        <p>Recetas deliciosas con fotos reales, información nutricional completa y tips de meal prep.</p>
+                        <span class="feature-link" onclick="showSection('recipes')">
+                            Ver Recetas <i class="fas fa-arrow-right"></i>
+                        </span>
                     </div>
-                    <p class="testimonial-text">
-                        "El planificador de comidas es increíble. Ya no tengo que pensar qué cocinar cada día.
-                        Las recetas son deliciosas y mi familia las ama."
-                    </p>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h3>12 Rutinas de Ejercicio</h3>
+                        <p>Ejercicios para todos los niveles con instrucciones detalladas, técnicas correctas y consejos de seguridad.</p>
+                        <span class="feature-link" onclick="showSection('exercises')">
+                            Ver Ejercicios <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Seguimiento de Progreso</h3>
+                        <p>Registra tu peso, medidas y observa tu progreso con gráficas interactivas. Tus datos se guardan automáticamente.</p>
+                        <span class="feature-link" onclick="showSection('tracker')">
+                            Comenzar a Registrar <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>Planificador Semanal</h3>
+                        <p>Plan de comidas completo para 7 días. 5 comidas diarias con información nutricional y tips de preparación.</p>
+                        <span class="feature-link" onclick="showSection('planner')">
+                            Ver Plan <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>100% Responsive</h3>
+                        <p>Accede desde cualquier dispositivo. Diseño optimizado para móvil, tablet y escritorio.</p>
+                        <span class="feature-link">
+                            Funciona En Todo <i class="fas fa-check"></i>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>¿Listo Para Comenzar Tu Transformación?</h2>
-                <p>Únete a miles de personas que ya están alcanzando sus objetivos con FitLife Pro</p>
-                <div class="cta-buttons">
-                    <a href="calculators.html" class="btn-large btn-primary">
-                        <i class="fas fa-calculator"></i>
-                        Calcular Mi Plan Ahora
-                    </a>
-                    <a href="tracker.html" class="btn-large btn-primary btn-outline">
-                        <i class="fas fa-chart-line"></i>
-                        Comenzar a Rastrear
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- CALCULATORS SECTION -->
+    <div id="calculators-section" class="page-section">
+        <p style="padding: 100px 20px; text-align: center; font-size: 24px;">
+            <i class="fas fa-spinner fa-spin"></i> Cargando Calculadoras...
+        </p>
+    </div>
+
+    <!-- RECIPES SECTION -->
+    <div id="recipes-section" class="page-section">
+        <p style="padding: 100px 20px; text-align: center; font-size: 24px;">
+            <i class="fas fa-spinner fa-spin"></i> Cargando Recetas...
+        </p>
+    </div>
+
+    <!-- EXERCISES SECTION -->
+    <div id="exercises-section" class="page-section">
+        <p style="padding: 100px 20px; text-align: center; font-size: 24px;">
+            <i class="fas fa-spinner fa-spin"></i> Cargando Ejercicios...
+        </p>
+    </div>
+
+    <!-- TRACKER SECTION -->
+    <div id="tracker-section" class="page-section">
+        <p style="padding: 100px 20px; text-align: center; font-size: 24px;">
+            <i class="fas fa-spinner fa-spin"></i> Cargando Tracker...
+        </p>
+    </div>
+
+    <!-- PLANNER SECTION -->
+    <div id="planner-section" class="page-section">
+        <p style="padding: 100px 20px; text-align: center; font-size: 24px;">
+            <i class="fas fa-spinner fa-spin"></i> Cargando Planificador...
+        </p>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <div class="footer-logo">
-                        <i class="fas fa-heartbeat"></i>
-                        <span>FitLife <span class="pro-badge">PRO</span></span>
-                    </div>
-                    <p>La plataforma más completa para transformar tu salud y alcanzar tus objetivos de peso.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Herramientas</h4>
-                    <ul>
-                        <li><a href="calculators.html">Calculadoras</a></li>
-                        <li><a href="tracker.html">Seguimiento</a></li>
-                        <li><a href="meal-planner.html">Planificador</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Recursos</h4>
-                    <ul>
-                        <li><a href="recipes.html">Recetas</a></li>
-                        <li><a href="exercises.html">Ejercicios</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Soporte</h4>
-                    <ul>
-                        <li><a href="#">Preguntas Frecuentes</a></li>
-                        <li><a href="#">Contacto</a></li>
-                        <li><a href="#">Blog</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2024 FitLife Pro. Todos los derechos reservados.</p>
-                <div class="footer-links">
-                    <a href="#">Privacidad</a>
-                    <a href="#">Términos</a>
-                    <a href="#">Cookies</a>
-                </div>
-            </div>
+            <p>&copy; 2024 FitLife Pro. Todos los derechos reservados.</p>
         </div>
     </footer>
 
     <script>
-        // Formato de números para las estadísticas
-        function formatNumber(num) {
-            return num.toLocaleString('es-ES');
+        // Navigation System
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all menu items
+            document.querySelectorAll('.nav-menu li').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionName + '-section').classList.add('active');
+
+            // Add active class to selected menu item
+            document.querySelector(`[data-section="${sectionName}"]`)?.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Load section content if not loaded
+            loadSectionContent(sectionName);
         }
 
-        // Mostrar estadísticas inmediatamente
-        document.getElementById('stat1').textContent = formatNumber(50000);
-        document.getElementById('stat2').textContent = formatNumber(2500000);
-        document.getElementById('stat3').textContent = '4.9';
+        // Lazy load section content
+        function loadSectionContent(sectionName) {
+            const section = document.getElementById(sectionName + '-section');
 
-        console.log('✅ FitLife Pro cargado correctamente');
+            // Check if already loaded
+            if (section.dataset.loaded === 'true') return;
+
+            // Load appropriate content
+            if (sectionName === 'calculators') {
+                loadCalculators();
+            } else if (sectionName === 'recipes') {
+                loadRecipes();
+            } else if (sectionName === 'exercises') {
+                loadExercises();
+            } else if (sectionName === 'tracker') {
+                loadTracker();
+            } else if (sectionName === 'planner') {
+                loadPlanner();
+            }
+
+            section.dataset.loaded = 'true';
+        }
+
+        function loadCalculators() {
+            // Content will be loaded dynamically
+            document.getElementById('calculators-section').innerHTML = '<div style="padding: 100px 20px; text-align: center;"><h2>Calculadoras cargándose...</h2></div>';
+        }
+
+        function loadRecipes() {
+            document.getElementById('recipes-section').innerHTML = '<div style="padding: 100px 20px; text-align: center;"><h2>Recetas cargándose...</h2></div>';
+        }
+
+        function loadExercises() {
+            document.getElementById('exercises-section').innerHTML = '<div style="padding: 100px 20px; text-align: center;"><h2>Ejercicios cargándose...</h2></div>';
+        }
+
+        function loadTracker() {
+            document.getElementById('tracker-section').innerHTML = '<div style="padding: 100px 20px; text-align: center;"><h2>Tracker cargándose...</h2></div>';
+        }
+
+        function loadPlanner() {
+            document.getElementById('planner-section').innerHTML = '<div style="padding: 100px 20px; text-align: center;"><h2>Planificador cargándose...</h2></div>';
+        }
+
+        console.log('✅ FitLife Pro - Single Page App Loaded!');
     </script>
 </body>
 </html>
