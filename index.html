@@ -548,55 +548,568 @@
         .footer { background: var(--dark); color: white; padding: 2rem 0; text-align: center; margin-top: 4rem; }
         
         /* Modal */
-        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; overflow-y: auto; padding: 2rem; }
-        .modal.active { display: flex; align-items: center; justify-content: center; }
-        .modal-content { background: white; border-radius: 20px; max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
-        .modal-header { position: sticky; top: 0; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 2rem; border-radius: 20px 20px 0 0; z-index: 1; }
-        .modal-close { position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; transition: all 0.3s; }
-        .modal-close:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
-        .modal-body { padding: 2rem; }
-        .nutrition-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0; }
-        .nutrition-item { text-align: center; padding: 1rem; background: var(--light); border-radius: 12px; }
-        .nutrition-value { font-size: 2rem; font-weight: 700; color: var(--primary); }
-        .recipe-section { margin: 2rem 0; }
-        .recipe-section h3 { color: var(--dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-        .ingredient-item, .instruction-item { padding: 0.75rem; margin: 0.5rem 0; background: var(--light); border-radius: 8px; display: flex; align-items: start; gap: 0.5rem; }
-        .ingredient-item:before { content: '✓'; color: var(--success); font-weight: bold; }
-        .instruction-item { background: white; border-left: 4px solid var(--primary); }
-        .step-number { background: var(--primary); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; flex-shrink: 0; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideUp 0.4s ease;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2rem;
+            border-radius: 20px 20px 0 0;
+            z-index: 1;
+        }
+
+        .modal-header h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            color: white;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .modal-body {
+            padding: 2.5rem;
+            color: var(--text);
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .nutrition-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .nutrition-item:hover {
+            background: rgba(16, 185, 129, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .nutrition-value {
+            font-size: 2rem;
+            font-weight: 900;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nutrition-item div:last-child {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .recipe-section {
+            margin: 2.5rem 0;
+        }
+
+        .recipe-section h3 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.4rem;
+        }
+
+        .recipe-section h3 i {
+            color: var(--primary);
+        }
+
+        .ingredient-item,
+        .instruction-item {
+            padding: 1rem;
+            margin: 0.75rem 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .ingredient-item:hover,
+        .instruction-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .ingredient-item:before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .instruction-item {
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
 
         /* Chatbot */
-        .chat-button { position: fixed; bottom: 2rem; right: 2rem; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4); z-index: 1000; transition: all 0.3s; }
-        .chat-button:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(102, 126, 234, 0.6); }
-        .chat-window { position: fixed; bottom: 100px; right: 2rem; width: 380px; height: 550px; background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 999; display: none; flex-direction: column; }
-        .chat-window.active { display: flex; }
-        .chat-header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 1.5rem; border-radius: 20px 20px 0 0; display: flex; justify-content: space-between; align-items: center; }
-        .chat-messages { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
-        .chat-message { padding: 1rem; border-radius: 12px; max-width: 85%; animation: slideIn 0.3s; }
-        .chat-message.bot { background: var(--light); align-self: flex-start; }
-        .chat-message.user { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; align-self: flex-end; }
-        .chat-input-container { padding: 1rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; }
-        .chat-input { flex: 1; padding: 0.75rem; border: 2px solid var(--border); border-radius: 25px; font-size: 0.95rem; }
-        .chat-input:focus { outline: none; border-color: var(--primary); }
-        .chat-send { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
-        .chat-suggestions { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0 1.5rem 1rem; }
-        .chat-suggestion { background: var(--light); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; cursor: pointer; border: 1px solid var(--border); transition: all 0.3s; }
-        .chat-suggestion:hover { background: var(--primary); color: white; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .chat-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+            z-index: 1000;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: chatPulse 2s infinite;
+        }
+
+        @keyframes chatPulse {
+            0%, 100% {
+                box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+            }
+            50% {
+                box-shadow: 0 8px 35px rgba(16, 185, 129, 0.7), 0 0 0 10px rgba(16, 185, 129, 0.2);
+            }
+        }
+
+        .chat-button:hover {
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 10px 35px rgba(16, 185, 129, 0.7);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 110px;
+            right: 2rem;
+            width: 400px;
+            height: 580px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            animation: chatSlideUp 0.4s ease;
+        }
+
+        @keyframes chatSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .chat-window.active {
+            display: flex;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1.75rem;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-message {
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            max-width: 85%;
+            animation: slideIn 0.3s;
+            line-height: 1.6;
+        }
+
+        .chat-message.bot {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            align-self: flex-start;
+            color: var(--text);
+        }
+
+        .chat-message.user {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            align-self: flex-end;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .chat-input-container {
+            padding: 1.25rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.75rem;
+            background: var(--dark);
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.9rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .chat-send {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .chat-send:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.5);
+        }
+
+        .chat-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-suggestion {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 0.6rem 1.25rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text);
+        }
+
+        .chat-suggestion:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         /* Tips Banner */
-        .tips-banner { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 1.5rem; text-align: center; font-size: 1.1rem; font-weight: 500; margin-top: 80px; animation: fadeIn 1s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .tips-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.2));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--text);
+            padding: 1.75rem;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s, bannerPulse 3s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tips-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.2), transparent);
+            animation: bannerShine 2s infinite;
+        }
+
+        @keyframes bannerShine {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        @keyframes bannerPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--darker);
+            color: var(--text-dim);
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer p {
+            font-size: 0.95rem;
+        }
 
         /* Responsive */
         @media (max-width: 968px) {
-            .nav-menu { display: none; }
-            .hero-title { font-size: 2.5rem; }
-            .hero-stats { grid-template-columns: 1fr; }
-            .features-grid, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-            .nutrition-grid { grid-template-columns: repeat(2, 1fr); }
-            .chat-window { width: calc(100% - 2rem); right: 1rem; }
-            .modal { padding: 0.5rem; }
+            body::before {
+                background-size: 20px 20px;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .nav-logo {
+                font-size: 1.2rem;
+            }
+
+            .hero {
+                margin: 1rem 0;
+                border-radius: 20px;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .features-grid,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card {
+                padding: 2rem;
+            }
+
+            .section-hero h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nutrition-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .nutrition-item {
+                padding: 1rem;
+            }
+
+            .nutrition-value {
+                font-size: 1.5rem;
+            }
+
+            .chat-button {
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+
+            .chat-window {
+                width: calc(100% - 2rem);
+                height: calc(100vh - 150px);
+                right: 1rem;
+                left: 1rem;
+            }
+
+            .modal {
+                padding: 0.5rem;
+            }
+
+            .modal-content {
+                border-radius: 15px;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .tips-banner {
+                font-size: 1rem;
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .btn-large {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .nutrition-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -606,15 +1119,13 @@
         <div class="nav-container">
             <div class="nav-logo" onclick="showSection('home')">
                 <i class="fas fa-heartbeat"></i>
-                <span>FitLife <span class="pro-badge">PRO</span></span>
+                <span>FitLife Pro</span>
             </div>
             <ul class="nav-menu">
                 <li class="active" onclick="showSection('home')" data-section="home">Inicio</li>
-                <li onclick="showSection('calculators')" data-section="calculators">Calculadoras</li>
                 <li onclick="showSection('recipes')" data-section="recipes">Recetas</li>
-                <li onclick="showSection('exercises')" data-section="exercises">Ejercicios</li>
+                <li onclick="showSection('calculators')" data-section="calculators">Calculadoras</li>
                 <li onclick="showSection('tracker')" data-section="tracker">Mi Progreso</li>
-                <li onclick="showSection('planner')" data-section="planner">Planificador</li>
             </ul>
         </div>
     </nav>
