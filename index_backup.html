@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLife Pro - Tu Plataforma Completa de Pérdida de Peso</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f5576c;
+            --dark: #1a1a2e;
+            --light: #f5f7fa;
+            --text: #333;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: var(--text); background: var(--light); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Navigation */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; background: white; box-shadow: var(--shadow); z-index: 1000; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 700; color: var(--primary); cursor: pointer; }
+        .pro-badge { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+        .nav-menu { display: flex; list-style: none; gap: 2rem; }
+        .nav-menu li { cursor: pointer; color: var(--text); font-weight: 500; transition: all 0.3s; position: relative; }
+        .nav-menu li:hover, .nav-menu li.active { color: var(--primary); }
+        .nav-menu li:after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary); transition: width 0.3s; }
+        .nav-menu li:hover:after, .nav-menu li.active:after { width: 100%; }
+        
+        /* Sections */
+        .page-section { display: none; min-height: 100vh; padding-top: 80px; }
+        .page-section.active { display: block; }
+        
+        /* Buttons */
+        .btn-primary, .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; transition: all 0.3s; cursor: pointer; border: none; font-size: 1rem; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); }
+        .btn-large { padding: 1rem 2rem; font-size: 1.1rem; }
+        
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; position: relative; overflow: hidden; }
+        .hero-content { position: relative; z-index: 1; text-align: center; max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .hero-title { font-size: 4rem; font-weight: 800; margin-bottom: 1.5rem; }
+        .hero-subtitle { font-size: 1.3rem; margin-bottom: 2.5rem; opacity: 0.95; }
+        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+        .stat-number { font-size: 3rem; font-weight: 800; }
+        
+        /* Features */
+        .features { background: white; padding: 6rem 0; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+        .feature-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: all 0.3s; }
+        .feature-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+        .feature-icon { width: 60px; height: 60px; border-radius: 12px; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; font-size: 1.8rem; color: white; }
+        .feature-link { color: var(--primary); font-weight: 600; cursor: pointer; }
+        
+        /* Section styling */
+        .section-hero { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 6rem 2rem 4rem; text-align: center; }
+        .section-hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .section-content { padding: 4rem 0; }
+        
+        /* Forms */
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { margin-bottom: 0.5rem; font-weight: 500; }
+        .form-group input, .form-group select { padding: 0.8rem; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem; }
+        .form-group input:focus { outline: none; border-color: var(--primary); }
+        
+        /* Cards */
+        .card { background: white; border-radius: 16px; box-shadow: var(--shadow); padding: 2rem; margin-bottom: 2rem; }
+        .card-title { font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--dark); display: flex; align-items: center; gap: 0.5rem; }
+        
+        /* Grid */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        
+        /* Footer */
+        .footer { background: var(--dark); color: white; padding: 2rem 0; text-align: center; margin-top: 4rem; }
+        
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; overflow-y: auto; padding: 2rem; }
+        .modal.active { display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: white; border-radius: 20px; max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
+        .modal-header { position: sticky; top: 0; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 2rem; border-radius: 20px 20px 0 0; z-index: 1; }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; transition: all 0.3s; }
+        .modal-close:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
+        .modal-body { padding: 2rem; }
+        .nutrition-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 2rem 0; }
+        .nutrition-item { text-align: center; padding: 1rem; background: var(--light); border-radius: 12px; }
+        .nutrition-value { font-size: 2rem; font-weight: 700; color: var(--primary); }
+        .recipe-section { margin: 2rem 0; }
+        .recipe-section h3 { color: var(--dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .ingredient-item, .instruction-item { padding: 0.75rem; margin: 0.5rem 0; background: var(--light); border-radius: 8px; display: flex; align-items: start; gap: 0.5rem; }
+        .ingredient-item:before { content: '✓'; color: var(--success); font-weight: bold; }
+        .instruction-item { background: white; border-left: 4px solid var(--primary); }
+        .step-number { background: var(--primary); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; flex-shrink: 0; }
+
+        /* Chatbot */
+        .chat-button { position: fixed; bottom: 2rem; right: 2rem; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4); z-index: 1000; transition: all 0.3s; }
+        .chat-button:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(102, 126, 234, 0.6); }
+        .chat-window { position: fixed; bottom: 100px; right: 2rem; width: 380px; height: 550px; background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 999; display: none; flex-direction: column; }
+        .chat-window.active { display: flex; }
+        .chat-header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 1.5rem; border-radius: 20px 20px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+        .chat-message { padding: 1rem; border-radius: 12px; max-width: 85%; animation: slideIn 0.3s; }
+        .chat-message.bot { background: var(--light); align-self: flex-start; }
+        .chat-message.user { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; align-self: flex-end; }
+        .chat-input-container { padding: 1rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; }
+        .chat-input { flex: 1; padding: 0.75rem; border: 2px solid var(--border); border-radius: 25px; font-size: 0.95rem; }
+        .chat-input:focus { outline: none; border-color: var(--primary); }
+        .chat-send { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
+        .chat-suggestions { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0 1.5rem 1rem; }
+        .chat-suggestion { background: var(--light); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; cursor: pointer; border: 1px solid var(--border); transition: all 0.3s; }
+        .chat-suggestion:hover { background: var(--primary); color: white; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Tips Banner */
+        .tips-banner { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 1.5rem; text-align: center; font-size: 1.1rem; font-weight: 500; margin-top: 80px; animation: fadeIn 1s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-menu { display: none; }
+            .hero-title { font-size: 2.5rem; }
+            .hero-stats { grid-template-columns: 1fr; }
+            .features-grid, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            .nutrition-grid { grid-template-columns: repeat(2, 1fr); }
+            .chat-window { width: calc(100% - 2rem); right: 1rem; }
+            .modal { padding: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="showSection('home')">
+                <i class="fas fa-heartbeat"></i>
+                <span>FitLife <span class="pro-badge">PRO</span></span>
+            </div>
+            <ul class="nav-menu">
+                <li class="active" onclick="showSection('home')" data-section="home">Inicio</li>
+                <li onclick="showSection('calculators')" data-section="calculators">Calculadoras</li>
+                <li onclick="showSection('recipes')" data-section="recipes">Recetas</li>
+                <li onclick="showSection('exercises')" data-section="exercises">Ejercicios</li>
+                <li onclick="showSection('tracker')" data-section="tracker">Mi Progreso</li>
+                <li onclick="showSection('planner')" data-section="planner">Planificador</li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HOME SECTION -->
+    <div id="home-section" class="page-section active">
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Transforma Tu Vida Con <br>FitLife Pro</h1>
+                <p class="hero-subtitle">Sistema completo para perder peso de forma saludable. Recetas, ejercicios, seguimiento y calculadoras científicas.</p>
+                <div class="hero-cta">
+                    <button class="btn-primary btn-large" onclick="showSection('calculators')"><i class="fas fa-calculator"></i> Calcular Mi Plan</button>
+                    <button class="btn-primary btn-large" onclick="showSection('tracker')"><i class="fas fa-chart-line"></i> Comenzar Ahora</button>
+                </div>
+                <div class="hero-stats">
+                    <div><div class="stat-number">50,000+</div><div>Usuarios Activos</div></div>
+                    <div><div class="stat-number">2.5M kg</div><div>Peso Perdido</div></div>
+                    <div><div class="stat-number">4.9★</div><div>Calificación</div></div>
+                </div>
+            </div>
+        </section>
+        <section class="features">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-calculator"></i></div>
+                        <h3>Calculadoras Personalizadas</h3>
+                        <p>Calcula tu IMC, calorías diarias, macros y más. Análisis personalizado que te dice exactamente cuánto necesitas perder.</p>
+                        <span class="feature-link" onclick="showSection('calculators')">Ir a Calculadoras <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-utensils"></i></div>
+                        <h3>15 Recetas Saludables</h3>
+                        <p>Recetas deliciosas con fotos reales, información nutricional completa y tips de meal prep.</p>
+                        <span class="feature-link" onclick="showSection('recipes')">Ver Recetas <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-dumbbell"></i></div>
+                        <h3>12 Rutinas de Ejercicio</h3>
+                        <p>Ejercicios para todos los niveles con instrucciones detalladas y consejos de seguridad.</p>
+                        <span class="feature-link" onclick="showSection('exercises')">Ver Ejercicios <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>Seguimiento de Progreso</h3>
+                        <p>Registra tu peso, medidas y observa tu progreso con gráficas interactivas.</p>
+                        <span class="feature-link" onclick="showSection('tracker')">Comenzar a Registrar <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <h3>Planificador Semanal</h3>
+                        <p>Plan de comidas completo para 7 días. 5 comidas diarias con información nutricional.</p>
+                        <span class="feature-link" onclick="showSection('planner')">Ver Plan <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h3>100% Responsive</h3>
+                        <p>Accede desde cualquier dispositivo. Diseño optimizado para móvil, tablet y escritorio.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CALCULATORS SECTION -->
+    <div id="calculators-section" class="page-section">
+        <div class="tips-banner" id="daily-tip">
+            💡 Tip del día: ¡Cargando consejo motivacional!
+        </div>
+        <div class="section-hero">
+            <h1><i class="fas fa-calculator"></i> Calculadoras de Salud</h1>
+            <p>Herramientas científicas para calcular tu IMC, calorías diarias y más</p>
+        </div>
+        <div class="container section-content">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-weight"></i> Calculadora de IMC</h2>
+                <form onsubmit="calculateBMI(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Altura (cm)</label>
+                            <input type="number" id="bmi-height" required placeholder="175">
+                        </div>
+                        <div class="form-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" step="0.1" id="bmi-weight" required placeholder="75">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary"><i class="fas fa-calculator"></i> Calcular IMC</button>
+                </form>
+                <div id="bmi-result" style="margin-top: 2rem;"></div>
+            </div>
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-fire"></i> Calculadora de Calorías</h2>
+                <form onsubmit="calculateCalories(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Edad (años)</label>
+                            <input type="number" id="cal-age" required placeholder="30">
+                        </div>
+                        <div class="form-group">
+                            <label>Género</label>
+                            <select id="cal-gender" required>
+                                <option value="male">Masculino</option>
+                                <option value="female">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" step="0.1" id="cal-weight" required placeholder="75">
+                        </div>
+                        <div class="form-group">
+                            <label>Altura (cm)</label>
+                            <input type="number" id="cal-height" required placeholder="175">
+                        </div>
+                        <div class="form-group">
+                            <label>Nivel de Actividad</label>
+                            <select id="cal-activity" required>
+                                <option value="1.2">Sedentario</option>
+                                <option value="1.375">Ligeramente activo</option>
+                                <option value="1.55">Moderadamente activo</option>
+                                <option value="1.725">Muy activo</option>
+                                <option value="1.9">Extremadamente activo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Objetivo</label>
+                            <select id="cal-goal" required>
+                                <option value="lose">Perder peso</option>
+                                <option value="maintain">Mantener peso</option>
+                                <option value="gain">Ganar peso</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary"><i class="fas fa-calculator"></i> Calcular Calorías</button>
+                </form>
+                <div id="cal-result" style="margin-top: 2rem;"></div>
+            </div>
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-tint"></i> Calculadora de Agua Diaria</h2>
+                <form onsubmit="calculateWater(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" step="0.1" id="water-weight" required placeholder="70">
+                        </div>
+                        <div class="form-group">
+                            <label>Nivel de Actividad</label>
+                            <select id="water-activity" required>
+                                <option value="low">Sedentario</option>
+                                <option value="moderate">Moderado</option>
+                                <option value="high">Alto</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Clima</label>
+                            <select id="water-climate" required>
+                                <option value="normal">Normal</option>
+                                <option value="hot">Caluroso</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary"><i class="fas fa-calculator"></i> Calcular Agua</button>
+                </form>
+                <div id="water-result" style="margin-top: 2rem;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECIPES SECTION -->
+    <div id="recipes-section" class="page-section">
+        <div class="section-hero">
+            <h1><i class="fas fa-utensils"></i> Recetas Saludables</h1>
+            <p>15 recetas nutritivas con información completa</p>
+        </div>
+        <div class="container section-content">
+            <div class="grid-3" id="recipes-grid"></div>
+        </div>
+    </div>
+
+    <!-- EXERCISES SECTION -->
+    <div id="exercises-section" class="page-section">
+        <div class="section-hero">
+            <h1><i class="fas fa-dumbbell"></i> Ejercicios</h1>
+            <p>12 ejercicios para todos los niveles</p>
+        </div>
+        <div class="container section-content">
+            <div class="grid-3" id="exercises-grid"></div>
+        </div>
+    </div>
+
+    <!-- TRACKER SECTION -->
+    <div id="tracker-section" class="page-section">
+        <div class="section-hero">
+            <h1><i class="fas fa-chart-line"></i> Seguimiento de Progreso</h1>
+            <p>Registra tu peso y observa tu transformación</p>
+        </div>
+        <div class="container section-content">
+            <div class="grid-4" id="stats-cards"></div>
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-plus-circle"></i> Agregar Registro</h2>
+                <form onsubmit="addEntry(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" id="entry-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" step="0.1" id="entry-weight" required placeholder="75.5">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Guardar Registro</button>
+                </form>
+            </div>
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-chart-area"></i> Tu Progreso</h2>
+                <canvas id="progress-chart" width="800" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLANNER SECTION -->
+    <div id="planner-section" class="page-section">
+        <div class="section-hero">
+            <h1><i class="fas fa-calendar-alt"></i> Planificador Semanal</h1>
+            <p>Plan de comidas para 7 días</p>
+        </div>
+        <div class="container section-content">
+            <div id="planner-content"></div>
+        </div>
+    </div>
+
+    <!-- Recipe Modal -->
+    <div id="recipe-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-recipe-title"></h2>
+                <button class="modal-close" onclick="closeRecipeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modal-recipe-body"></div>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <button class="chat-button" onclick="toggleChat()" id="chat-btn">
+        <i class="fas fa-comments"></i>
+    </button>
+    <div class="chat-window" id="chat-window">
+        <div class="chat-header">
+            <div>
+                <h3 style="margin: 0;">💬 Asistente FitLife</h3>
+                <p style="margin: 0; font-size: 0.85rem; opacity: 0.9;">Pregúntame lo que quieras</p>
+            </div>
+            <button class="modal-close" onclick="toggleChat()" style="position: static;">×</button>
+        </div>
+        <div class="chat-suggestions">
+            <div class="chat-suggestion" onclick="askQuestion('¿Cuánta agua debo tomar?')">💧 ¿Cuánta agua?</div>
+            <div class="chat-suggestion" onclick="askQuestion('¿Cómo perder peso rápido?')">🏃 Perder peso</div>
+            <div class="chat-suggestion" onclick="askQuestion('¿Qué alimentos evitar?')">🍔 Qué evitar</div>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="chat-message bot">
+                ¡Hola! 👋 Soy tu asistente de FitLife Pro. Pregúntame sobre nutrición, ejercicio, pérdida de peso y más.
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Escribe tu pregunta..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button class="chat-send" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 FitLife Pro. Todos los derechos reservados. Una sola página, todo el contenido.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== NAVIGATION ====================
+        function showSection(section) {
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
+            document.getElementById(section + '-section').classList.add('active');
+            document.querySelector(`[data-section="${section}"]`)?.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (section === 'recipes' && !window.recipesLoaded) loadRecipes();
+            if (section === 'exercises' && !window.exercisesLoaded) loadExercises();
+            if (section === 'planner' && !window.plannerLoaded) loadPlanner();
+        }
+
+        // ==================== CALCULATORS ====================
+        function calculateBMI(e) {
+            e.preventDefault();
+            const height = parseFloat(document.getElementById('bmi-height').value);
+            const weight = parseFloat(document.getElementById('bmi-weight').value);
+            const heightM = height / 100;
+            const bmi = weight / (heightM * heightM);
+            const normalMax = 24.9;
+            const targetWeight = normalMax * (heightM * heightM);
+            const diff = weight - targetWeight;
+            
+            let category, color, message;
+            if (bmi < 18.5) { category = 'Bajo peso'; color = '#ff9800'; message = 'Necesitas ganar peso'; }
+            else if (bmi < 25) { category = 'Peso normal'; color = '#4caf50'; message = '¡Excelente! Estás en tu peso ideal'; }
+            else if (bmi < 30) { category = 'Sobrepeso'; color = '#ff9800'; message = `Te faltan ${diff.toFixed(1)} kg para salir del sobrepeso`; }
+            else { category = 'Obesidad'; color = '#f44336'; message = `Necesitas perder ${diff.toFixed(1)} kg para un peso saludable`; }
+            
+            document.getElementById('bmi-result').innerHTML = `
+                <div style="padding: 2rem; background: ${color}22; border-left: 4px solid ${color}; border-radius: 8px;">
+                    <h3 style="color: ${color}; margin-bottom: 1rem;">Tu IMC: ${bmi.toFixed(1)} - ${category}</h3>
+                    <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">${message}</p>
+                    <p>Peso objetivo: ${targetWeight.toFixed(1)} kg</p>
+                </div>
+            `;
+        }
+        
+        function calculateCalories(e) {
+            e.preventDefault();
+            const age = parseInt(document.getElementById('cal-age').value);
+            const gender = document.getElementById('cal-gender').value;
+            const weight = parseFloat(document.getElementById('cal-weight').value);
+            const height = parseFloat(document.getElementById('cal-height').value);
+            const activity = parseFloat(document.getElementById('cal-activity').value);
+            const goal = document.getElementById('cal-goal').value;
+            
+            let bmr = gender === 'male' 
+                ? 10 * weight + 6.25 * height - 5 * age + 5
+                : 10 * weight + 6.25 * height - 5 * age - 161;
+            
+            const tdee = Math.round(bmr * activity);
+            let target = tdee;
+            if (goal === 'lose') target = tdee - 500;
+            else if (goal === 'gain') target = tdee + 300;
+            
+            document.getElementById('cal-result').innerHTML = `
+                <div style="padding: 2rem; background: linear-gradient(135deg, #667eea22, #764ba222); border-radius: 8px;">
+                    <h3 style="margin-bottom: 1rem;">Tu Plan Calórico</h3>
+                    <p><strong>Metabolismo Basal (BMR):</strong> ${Math.round(bmr)} cal/día</p>
+                    <p><strong>Gasto Total (TDEE):</strong> ${tdee} cal/día</p>
+                    <p style="font-size: 1.2rem; margin-top: 1rem;"><strong>Calorías Objetivo:</strong> ${target} cal/día</p>
+                </div>
+            `;
+        }
+
+        function calculateWater(e) {
+            e.preventDefault();
+            const weight = parseFloat(document.getElementById('water-weight').value);
+            const activity = document.getElementById('water-activity').value;
+            const climate = document.getElementById('water-climate').value;
+
+            let baseWater = weight * 35; // ml por kg
+
+            if (activity === 'moderate') baseWater *= 1.2;
+            else if (activity === 'high') baseWater *= 1.4;
+
+            if (climate === 'hot') baseWater *= 1.15;
+
+            const liters = (baseWater / 1000).toFixed(1);
+            const glasses = Math.round(baseWater / 250);
+
+            document.getElementById('water-result').innerHTML = `
+                <div style="padding: 2rem; background: linear-gradient(135deg, #4facfe22, #00f2fe22); border-radius: 8px; border-left: 4px solid #4facfe;">
+                    <h3 style="color: #4facfe; margin-bottom: 1rem;">💧 Tu Objetivo de Hidratación</h3>
+                    <p style="font-size: 2rem; font-weight: 700; color: #4facfe; margin: 1rem 0;">${liters} Litros al día</p>
+                    <p style="font-size: 1.2rem; margin: 0.5rem 0;">Equivalente a <strong>${glasses} vasos</strong> de agua (250ml c/u)</p>
+                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #4facfe33;">
+                        <p><strong>💡 Tips de hidratación:</strong></p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li>Bebe un vaso de agua al despertar</li>
+                            <li>Lleva una botella contigo siempre</li>
+                            <li>Bebe agua antes de cada comida</li>
+                            <li>Si tu orina es amarillo oscuro, necesitas más agua</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==================== RECIPES DATA ====================
+const recipes = [
+    {
+        id: 1,
+        title: "Ensalada de Pollo a la Parrilla",
+        image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80",
+        time: "20 mins",
+        calories: 350,
+        difficulty: "Fácil",
+        nutrition: {
+            protein: "35g",
+            carbs: "15g",
+            fat: "12g",
+            fiber: "8g"
+        },
+        ingredients: [
+            "200g pechuga de pollo a la parrilla",
+            "2 tazas de hojas verdes mixtas",
+            "1/2 taza de tomates cherry",
+            "1/4 pepino, rebanado",
+            "2 cucharadas de aceite de oliva",
+            "1 cucharada de vinagre balsámico",
+            "Sal y pimienta al gusto"
+        ],
+        instructions: [
+            "Calienta una sartén o parrilla a fuego medio-alto. Sazona la pechuga de pollo con sal, pimienta y tus especias favoritas.",
+            "Cocina el pollo durante 6-7 minutos por cada lado hasta que esté completamente cocido (temperatura interna de 74°C).",
+            "Mientras el pollo se cocina, lava y seca las hojas verdes. Corta los tomates cherry por la mitad y el pepino en rodajas.",
+            "Deja reposar el pollo cocido durante 5 minutos, luego córtalo en tiras o cubos.",
+            "En un bowl grande, combina las hojas verdes, tomates y pepino.",
+            "Mezcla el aceite de oliva con el vinagre balsámico, sal y pimienta para hacer el aderezo.",
+            "Coloca el pollo sobre las verduras y rocía con el aderezo. Sirve inmediatamente."
+        ],
+        mealPrepTips: [
+            "Puedes cocinar el pollo con anticipación y guardarlo en el refrigerador hasta por 4 días.",
+            "Prepara el aderezo en un frasco y agítalo antes de usar.",
+            "Mantén las verduras y el pollo separados hasta el momento de servir para evitar que se ablanden."
+        ]
+    },
+    {
+        id: 2,
+        title: "Bowl de Quinoa Buddha",
+        image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80",
+        time: "25 mins",
+        calories: 400,
+        difficulty: "Media",
+        nutrition: {
+            protein: "18g",
+            carbs: "55g",
+            fat: "10g",
+            fiber: "12g"
+        },
+        ingredients: [
+            "1 taza de quinoa cocida",
+            "1 taza de garbanzos asados",
+            "1 taza de batata asada",
+            "1 taza de espinaca",
+            "1/4 aguacate",
+            "2 cucharadas de aderezo de tahini",
+            "Semillas de sésamo para decorar"
+        ],
+        instructions: [
+            "Cocina la quinoa según las instrucciones del paquete (generalmente 15 minutos). Deja enfriar.",
+            "Precalienta el horno a 200°C. Pela y corta la batata en cubos de 2cm.",
+            "En un bowl, mezcla los garbanzos escurridos con 1 cucharada de aceite de oliva, comino, pimentón y una pizca de sal.",
+            "Coloca la batata y los garbanzos en una bandeja de horno. Asa durante 20-25 minutos, volteando a la mitad.",
+            "Mientras tanto, prepara el aderezo de tahini mezclando 2 cucharadas de tahini, jugo de limón, ajo picado y agua hasta obtener consistencia cremosa.",
+            "Lava y seca las hojas de espinaca.",
+            "En un bowl, coloca una base de quinoa. Añade los garbanzos y batata asados, espinaca fresca y aguacate en rodajas.",
+            "Rocía con el aderezo de tahini y espolvorea semillas de sésamo. ¡Disfruta!"
+        ],
+        mealPrepTips: [
+            "Prepara grandes cantidades de quinoa y guárdala en el refrigerador hasta por 5 días.",
+            "Los garbanzos y batata asados se mantienen bien hasta por 4 días en un contenedor hermético.",
+            "Agrega el aguacate y el aderezo justo antes de comer para mantener la frescura."
+        ]
+    },
+    {
+        id: 3,
+        title: "Parfait de Yogur Griego",
+        image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80",
+        time: "5 mins",
+        calories: 250,
+        difficulty: "Fácil",
+        nutrition: {
+            protein: "20g",
+            carbs: "30g",
+            fat: "5g",
+            fiber: "6g"
+        },
+        ingredients: [
+            "200g yogur griego 0% grasa",
+            "1/2 taza de frutos rojos mixtos",
+            "2 cucharadas de granola",
+            "1 cucharada de miel",
+            "1 cucharada de semillas de chía",
+            "Hojas de menta para decorar"
+        ],
+        instructions: [
+            "En un vaso o bowl transparente, coloca la mitad del yogur griego en el fondo.",
+            "Añade una capa de frutos rojos (fresas, arándanos, frambuesas).",
+            "Espolvorea la mitad de la granola y semillas de chía.",
+            "Repite con otra capa de yogur, frutos rojos y granola.",
+            "Rocía con miel por encima.",
+            "Decora con hojas de menta fresca. Sirve inmediatamente y disfruta."
+        ],
+        mealPrepTips: [
+            "Puedes preparar los parfaits en frascos de vidrio la noche anterior, pero agrega la granola justo antes de comer para mantenerla crujiente.",
+            "Usa frutos rojos congelados si no tienes frescos - son igual de nutritivos.",
+            "Sustituye la miel con jarabe de arce puro para una opción vegana."
+        ]
+    },
+    {
+        id: 4,
+        title: "Salmón al Horno con Verduras",
+        image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80",
+        time: "30 mins",
+        calories: 450,
+        difficulty: "Media",
+        nutrition: {
+            protein: "40g",
+            carbs: "20g",
+            fat: "22g",
+            fiber: "7g"
+        },
+        ingredients: [
+            "200g filete de salmón",
+            "2 tazas de floretes de brócoli",
+            "1 taza de espárragos",
+            "1 limón, rebanado",
+            "2 cucharadas de aceite de oliva",
+            "Ajo, hierbas y especias"
+        ],
+        instructions: [
+            "Precalienta el horno a 200°C. Forra una bandeja de horno con papel pergamino.",
+            "Lava y corta las verduras: separa los floretes de brócoli y corta los extremos duros de los espárragos.",
+            "Coloca el salmón en el centro de la bandeja. Rodéalo con el brócoli y los espárragos.",
+            "Rocía todo con aceite de oliva. Sazona el salmón con sal, pimienta, ajo en polvo y eneldo.",
+            "Coloca rodajas de limón sobre el salmón y entre las verduras.",
+            "Hornea durante 15-18 minutos hasta que el salmón esté opaco y se desmenuce fácilmente con un tenedor.",
+            "Las verduras deben estar tiernas pero aún crujientes. Sirve caliente y disfruta los omega-3."
+        ],
+        mealPrepTips: [
+            "El salmón cocido se mantiene bien en el refrigerador hasta por 3 días.",
+            "Puedes usar cualquier combinación de verduras que tengas: zanahorias, pimientos o calabacín.",
+            "Para recalentar, usa el horno a baja temperatura para mantener la textura del pescado."
+        ]
+    },
+    {
+        id: 5,
+        title: "Salteado de Vegetales",
+        image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80",
+        time: "15 mins",
+        calories: 280,
+        difficulty: "Fácil",
+        nutrition: {
+            protein: "12g",
+            carbs: "35g",
+            fat: "10g",
+            fiber: "9g"
+        },
+        ingredients: [
+            "1 taza de pimientos morrones",
+            "1 taza de ejotes",
+            "1 taza de champiñones",
+            "1/2 taza de zanahorias juliana",
+            "2 cucharadas de salsa de soya baja en sodio",
+            "1 cucharada de aceite de sésamo",
+            "Jengibre y ajo"
+        ],
+        instructions: [
+            "Prepara todos los ingredientes: lava las verduras, corta los pimientos en tiras, los champiñones en láminas y las zanahorias en juliana.",
+            "Pica finamente 1 cucharada de jengibre fresco y 2 dientes de ajo.",
+            "Calienta un wok o sartén grande a fuego alto. Añade el aceite de sésamo.",
+            "Saltea el ajo y jengibre durante 30 segundos hasta que estén fragantes.",
+            "Añade primero las zanahorias y cocina por 2 minutos, luego los champiñones y pimientos.",
+            "Agrega los ejotes y cocina por 2-3 minutos más, moviendo constantemente.",
+            "Vierte la salsa de soya, mezcla bien y cocina por 1 minuto adicional. Las verduras deben estar crujientes.",
+            "Sirve inmediatamente sobre arroz integral o fideos de arroz para una comida completa."
+        ],
+        mealPrepTips: [
+            "Corta todas las verduras el día anterior y guárdalas en contenedores separados.",
+            "Este salteado se mantiene bien hasta por 4 días. Recalienta en sartén a fuego alto.",
+            "Añade tofu, pollo o camarones para aumentar el contenido de proteína."
+        ]
+    },
+    {
+        id: 6,
+        title: "Bowl de Smoothie de Proteína",
+        image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&q=80",
+        time: "10 mins",
+        calories: 320,
+        difficulty: "Fácil",
+        nutrition: {
+            protein: "25g",
+            carbs: "40g",
+            fat: "8g",
+            fiber: "10g"
+        },
+        ingredients: [
+            "1 scoop de proteína en polvo",
+            "1 plátano congelado",
+            "1/2 taza de frutos rojos congelados",
+            "1 taza de leche de almendras",
+            "1 cucharada de mantequilla de almendras",
+            "Toppings: granola, frutas, semillas"
+        ],
+        instructions: [
+            "Congela el plátano cortado en rodajas al menos 2 horas antes (o usa uno ya congelado).",
+            "En una licuadora, añade la leche de almendras primero para evitar que se pegue.",
+            "Agrega el plátano congelado, frutos rojos, proteína en polvo y mantequilla de almendras.",
+            "Licúa a velocidad baja inicialmente, luego aumenta a alta velocidad hasta obtener una consistencia espesa y cremosa.",
+            "Si está muy espeso, añade más leche de almendras poco a poco. Si está muy líquido, agrega más fruta congelada o hielo.",
+            "Vierte en un bowl grande.",
+            "Decora con tus toppings favoritos: granola, rodajas de plátano fresco, fresas, arándanos, semillas de chía, coco rallado y mantequilla de almendras.",
+            "Sirve inmediatamente con una cuchara y disfruta este desayuno nutritivo y delicioso."
+        ],
+        mealPrepTips: [
+            "Prepara bolsas con porciones de frutas congeladas para smoothies rápidos.",
+            "La mantequilla de almendras se puede sustituir por mantequilla de maní o girasol.",
+            "Añade espinaca o col rizada para nutrientes extra sin cambiar mucho el sabor."
+        ]
+    },
+    {
+        id: 7,
+        title: "Tacos de Pescado al Estilo Baja",
+        image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&q=80",
+        time: "25 mins",
+        calories: 380,
+        difficulty: "Media",
+        nutrition: {
+            protein: "32g",
+            carbs: "38g",
+            fat: "12g",
+            fiber: "8g"
+        },
+        ingredients: [
+            "300g pescado blanco (tilapia o cod)",
+            "6 tortillas de maíz pequeñas",
+            "1 taza de repollo morado rallado",
+            "1/2 taza de cilantro fresco",
+            "1 limón",
+            "Salsa de yogur: yogur griego, lima, comino",
+            "Pico de gallo fresco"
+        ],
+        instructions: [
+            "Prepara la salsa mezclando 1/2 taza de yogur griego, jugo de 1 lima, 1/2 cucharadita de comino y una pizca de sal.",
+            "Sazona el pescado con sal, pimienta, pimentón y comino.",
+            "Calienta una sartén con aceite de oliva a fuego medio-alto. Cocina el pescado 3-4 minutos por lado hasta que esté opaco.",
+            "Mientras el pescado se cocina, calienta las tortillas en una sartén seca o directamente sobre la llama de la estufa.",
+            "Ralla finamente el repollo morado y pica el cilantro fresco.",
+            "Una vez cocido, desmenúzalo en trozos grandes.",
+            "Ensambla los tacos: coloca pescado en cada tortilla, agrega repollo rallado, cilantro, un chorrito de salsa de yogur y pico de gallo.",
+            "Exprime limón fresco por encima. ¡Sirve inmediatamente y disfruta!"
+        ],
+        mealPrepTips: [
+            "Prepara todos los componentes por separado y ensambla justo antes de comer.",
+            "El repollo rallado se mantiene crujiente hasta por 3 días en el refrigerador.",
+            "Puedes usar salmón, camarones o incluso pollo como alternativa al pescado blanco."
+        ]
+    },
+    {
+        id: 8,
+        title: "Ensalada Mediterránea de Garbanzos",
+        image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800&q=80",
+        time: "15 mins",
+        calories: 320,
+        difficulty: "Fácil",
+        nutrition: {
+            protein: "15g",
+            carbs: "42g",
+            fat: "11g",
+            fiber: "12g"
+        },
+        ingredients: [
+            "1 lata de garbanzos escurridos",
+            "1 taza de tomates cherry",
+            "1/2 pepino en cubos",
+            "1/4 cebolla morada rebanada",
+            "1/2 taza de queso feta desmoronado",
+            "Aceitunas kalamata",
+            "Aderezo: aceite oliva, limón, orégano"
+        ],
+        instructions: [
+            "Escurre y enjuaga bien los garbanzos. Sécalos con papel toalla.",
+            "Corta los tomates cherry por la mitad, el pepino en cubos pequeños y la cebolla morada en rodajas finas.",
+            "En un bowl grande, combina los garbanzos, tomates, pepino, cebolla y aceitunas.",
+            "Prepara el aderezo en un frasco: 3 cucharadas de aceite de oliva, jugo de 1 limón, 1 cucharadita de orégano seco, 1 diente de ajo picado, sal y pimienta.",
+            "Agita vigorosamente el frasco para emulsionar el aderezo.",
+            "Vierte el aderezo sobre la ensalada y mezcla bien para que todos los ingredientes se impregnen.",
+            "Añade el queso feta desmoronado por encima.",
+            "Deja reposar 10 minutos para que los sabores se integren. Sirve fría o a temperatura ambiente."
+        ],
+        mealPrepTips: [
+            "Esta ensalada mejora con el tiempo - el sabor se intensifica después de unas horas.",
+            "Se mantiene perfecta en el refrigerador hasta por 4 días.",
+            "Sirve sobre hojas verdes, con pan pita integral o como relleno para wraps."
+        ]
+    },
+    {
+        id: 9,
+        title: "Pechuga de Pollo a la Plancha con Hierbas",
+        image: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=800&q=80",
+        time: "20 mins",
+        calories: 280,
+        difficulty: "Fácil",
+        nutrition: {
+            protein: "45g",
+            carbs: "5g",
+            fat: "9g",
+            fiber: "1g"
+        },
+        ingredients: [
+            "200g pechuga de pollo",
+            "2 cucharadas de aceite de oliva",
+            "Romero fresco",
+            "Tomillo fresco",
+            "Ajo en polvo",
+            "Jugo de limón",
+            "Sal y pimienta"
+        ],
+        instructions: [
+            "Golpea suavemente la pechuga de pollo con un mazo para emparejar el grosor (esto asegura cocción uniforme).",
+            "En un bowl, mezcla aceite de oliva, jugo de medio limón, 1 cucharadita de romero picado, 1 cucharadita de tomillo, ajo en polvo, sal y pimienta.",
+            "Marina el pollo en esta mezcla durante al menos 15 minutos (o hasta 4 horas en el refrigerador).",
+            "Calienta una sartén o plancha a fuego medio-alto.",
+            "Coloca el pollo en la sartén caliente y cocina sin mover durante 6-7 minutos.",
+            "Voltea el pollo y cocina otros 6-7 minutos hasta que la temperatura interna alcance 74°C.",
+            "Deja reposar el pollo 5 minutos antes de cortar para que los jugos se redistribuyan.",
+            "Sirve con verduras asadas o ensalada fresca. Rocía con jugo de limón adicional."
+        ],
+        mealPrepTips: [
+            "Cocina varias pechugas a la vez para meal prep de la semana.",
+            "El pollo cocido se mantiene fresco hasta por 4 días en el refrigerador.",
+            "Rebana el pollo cocido para usarlo en ensaladas, wraps o bowls."
+        ]
+    },
+    {
+        id: 10,
+        title: "Bowl de Arroz Integral con Tofu",
+        image: "https://images.unsplash.com/photo-1546069901-eacef0df6022?w=800&q=80",
+        time: "30 mins",
+        calories: 420,
+        difficulty: "Media",
+        nutrition: {
+            protein: "22g",
+            carbs: "58g",
+            fat: "14g",
+            fiber: "10g"
+        },
+        ingredients: [
+            "1 taza de arroz integral cocido",
+            "200g tofu extra firme",
+            "1 taza de edamame",
+            "1 zanahoria en juliana",
+            "1/2 taza de pepino",
+            "Salsa teriyaki casera",
+            "Semillas de sésamo y alga nori"
+        ],
+        instructions: [
+            "Cocina el arroz integral según instrucciones del paquete (40-45 minutos). Mantén caliente.",
+            "Escurre el tofu y presiónalo entre toallas de papel durante 15 minutos para eliminar exceso de agua.",
+            "Corta el tofu en cubos de 2cm. Marina con salsa teriyaki durante 10 minutos.",
+            "Calienta una sartén con aceite de sésamo. Cocina el tofu 3-4 minutos por lado hasta que esté dorado.",
+            "Mientras tanto, hierve el edamame según instrucciones (usualmente 5 minutos) y corta las verduras.",
+            "Prepara la salsa teriyaki casera: mezcla salsa de soya, mirin, jengibre rallado y un toque de miel.",
+            "En un bowl, coloca una base de arroz integral. Añade el tofu, edamame, zanahoria y pepino en secciones.",
+            "Rocía con la salsa teriyaki, espolvorea semillas de sésamo y tiras de alga nori. ¡Disfruta!"
+        ],
+        mealPrepTips: [
+            "El arroz integral se puede cocinar en grandes cantidades y congelar en porciones.",
+            "Marinar el tofu la noche anterior intensifica mucho el sabor.",
+            "Todos los componentes se mantienen bien separados hasta por 4 días."
+        ]
+    },
+    {
+        id: 11,
+        title: "Wrap de Pavo y Aguacate",
+        image: "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=800&q=80",
+        time: "10 mins",
+        calories: 360,
+        difficulty: "Fácil",
+        nutrition: {
+            protein: "28g",
+            carbs: "32g",
+            fat: "14g",
+            fiber: "9g"
+        },
+        ingredients: [
+            "1 tortilla integral grande",
+            "100g pechuga de pavo rebanada",
+            "1/2 aguacate maduro",
+            "Hojas de lechuga",
+            "Tomate rebanado",
+            "Mostaza Dijon",
+            "Brotes de alfalfa"
+        ],
+        instructions: [
+            "Calienta ligeramente la tortilla integral en una sartén seca durante 20 segundos por lado.",
+            "Coloca la tortilla en una superficie plana. Unta una fina capa de mostaza Dijon en el centro.",
+            "Machaca el aguacate con un tenedor y extiéndelo sobre la tortilla, dejando 2cm en los bordes.",
+            "Coloca las hojas de lechuga lavadas y secas sobre el aguacate.",
+            "Añade las rebanadas de pavo, tomate y brotes de alfalfa.",
+            "Para enrollar: dobla los lados izquierdo y derecho hacia el centro, luego enrolla firmemente desde abajo hacia arriba.",
+            "Corta el wrap por la mitad en diagonal para una presentación atractiva.",
+            "Sirve inmediatamente o envuelve en papel aluminio para llevar."
+        ],
+        mealPrepTips: [
+            "Prepara todos los ingredientes la noche anterior, pero ensambla el wrap por la mañana.",
+            "Usa papel pergamino para envolver y mantener la forma del wrap.",
+            "Añade hummus o queso bajo en grasa para más sabor y proteína."
+        ]
+    },
+    {
+        id: 12,
+        title: "Sopa de Lentejas Nutritiva",
+        image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80",
+        time: "35 mins",
+        calories: 290,
+        difficulty: "Fácil",
+        nutrition: {
+            protein: "18g",
+            carbs: "48g",
+            fat: "4g",
+            fiber: "16g"
+        },
+        ingredients: [
+            "1 taza de lentejas secas",
+            "1 cebolla picada",
+            "2 zanahorias en cubos",
+            "2 tallos de apio picados",
+            "3 dientes de ajo picados",
+            "4 tazas de caldo de verduras",
+            "Comino, cúrcuma, pimentón"
+        ],
+        instructions: [
+            "Enjuaga bien las lentejas bajo agua fría. Elimina cualquier piedrita o residuo.",
+            "En una olla grande, calienta aceite de oliva a fuego medio. Añade la cebolla picada y saltea 5 minutos.",
+            "Agrega las zanahorias, apio y ajo. Cocina 5 minutos más hasta que estén fragantes.",
+            "Añade las especias: 1 cucharadita de comino, 1/2 cucharadita de cúrcuma y pimentón. Mezcla bien.",
+            "Incorpora las lentejas y el caldo de verduras. Aumenta el fuego y lleva a ebullición.",
+            "Reduce el fuego a bajo, tapa parcialmente y cocina a fuego lento durante 25-30 minutos.",
+            "Las lentejas deben estar tiernas pero no deshechas. Añade más caldo si está muy espesa.",
+            "Prueba y ajusta sazón. Sirve caliente con cilantro fresco y un chorrito de limón."
+        ],
+        mealPrepTips: [
+            "Esta sopa mejora con el tiempo - sabe mejor al día siguiente.",
+            "Se mantiene en el refrigerador hasta 5 días y congela perfectamente.",
+            "Sirve con pan integral tostado o sobre arroz integral para una comida completa."
+        ]
+    },
+    {
+        id: 13,
+        title: "Omelette de Claras con Verduras",
+        image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&q=80",
+        time: "12 mins",
+        calories: 180,
+        difficulty: "Fácil",
+        nutrition: {
+            protein: "24g",
+            carbs: "8g",
+            fat: "6g",
+            fiber: "3g"
+        },
+        ingredients: [
+            "4 claras de huevo",
+            "1 huevo entero",
+            "1/4 taza de pimientos morrones",
+            "1/4 taza de espinacas",
+            "1/4 taza de champiñones",
+            "1/4 taza de queso bajo en grasa",
+            "Sal, pimienta y hierbas"
+        ],
+        instructions: [
+            "Pica finamente todos los vegetales: pimientos, espinacas y champiñones.",
+            "En un bowl, bate las 4 claras con 1 huevo entero. Añade sal, pimienta y tus hierbas favoritas.",
+            "Calienta una sartén antiadherente a fuego medio. Rocía con spray de cocina.",
+            "Saltea los vegetales durante 2-3 minutos hasta que estén tiernos. Retira y reserva.",
+            "Vierte la mezcla de huevo en la sartén caliente. Inclina la sartén para distribuir uniformemente.",
+            "Cuando los bordes estén cocidos pero el centro aún líquido, añade los vegetales y queso en una mitad.",
+            "Con una espátula, dobla la omelette por la mitad cubriendo el relleno.",
+            "Cocina 1 minuto más, voltea con cuidado y cocina otro minuto. Sirve inmediatamente."
+        ],
+        mealPrepTips: [
+            "Pica todas las verduras el día anterior para un desayuno super rápido.",
+            "Puedes usar cualquier combinación de verduras que tengas a mano.",
+            "Las omelettes se pueden guardar en el refrigerador hasta 2 días y recalentar en microondas."
+        ]
+    },
+    {
+        id: 14,
+        title: "Poke Bowl de Atún",
+        image: "https://images.unsplash.com/photo-1546833998-877b37c2e5c6?w=800&q=80",
+        time: "20 mins",
+        calories: 410,
+        difficulty: "Media",
+        nutrition: {
+            protein: "38g",
+            carbs: "45g",
+            fat: "12g",
+            fiber: "8g"
+        },
+        ingredients: [
+            "200g atún fresco grado sushi",
+            "1 taza de arroz para sushi cocido",
+            "1/2 aguacate rebanado",
+            "Edamame, pepino, alga wakame",
+            "Salsa de soya, sésamo",
+            "Jengibre encurtido",
+            "Cebollín picado"
+        ],
+        instructions: [
+            "Cocina el arroz para sushi según instrucciones. Mientras cocina, sazona con vinagre de arroz, sal y azúcar.",
+            "Corta el atún fresco en cubos de 2cm. Asegúrate de que sea grado sushi y esté muy fresco.",
+            "Marina el atún: mezcla 2 cucharadas de salsa de soya, 1 cucharadita de aceite de sésamo, un poco de jengibre rallado.",
+            "Hidrata el alga wakame en agua fría durante 5 minutos. Escurre bien.",
+            "Corta el pepino en medias lunas, el aguacate en rebanadas y pica el cebollín finamente.",
+            "En un bowl, coloca una base de arroz de sushi. Organiza el atún marinado, aguacate, edamame, pepino y alga en secciones.",
+            "Añade jengibre encurtido, espolvorea semillas de sésamo y cebollín.",
+            "Sirve con salsa de soya extra y wasabi al lado. ¡Un festín fresco y delicioso!"
+        ],
+        mealPrepTips: [
+            "Compra atún fresco el mismo día que planees prepararlo.",
+            "El arroz se puede preparar con anticipación y refrigerar.",
+            "Todos los vegetales se pueden picar con un día de anticipación."
+        ]
+    },
+    {
+        id: 15,
+        title: "Batido Verde Energizante",
+        image: "https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=800&q=80",
+        time: "5 mins",
+        calories: 220,
+        difficulty: "Fácil",
+        nutrition: {
+            protein: "15g",
+            carbs: "32g",
+            fat: "6g",
+            fiber: "8g"
+        },
+        ingredients: [
+            "1 taza de espinaca fresca",
+            "1 plátano maduro",
+            "1/2 taza de piña congelada",
+            "1 scoop de proteína de vainilla",
+            "1 taza de leche de coco light",
+            "1 cucharada de semillas de linaza",
+            "Hielo al gusto"
+        ],
+        instructions: [
+            "Lava bien las hojas de espinaca y sécalas. No te preocupes, ¡no sabrás que están ahí!",
+            "Pela el plátano y córtalo en trozos grandes.",
+            "En la licuadora, añade primero el líquido (leche de coco) para facilitar el licuado.",
+            "Agrega las espinacas, plátano, piña congelada y semillas de linaza.",
+            "Añade el scoop de proteína en polvo por último.",
+            "Licúa a velocidad baja por 15 segundos, luego a velocidad alta durante 45-60 segundos.",
+            "Si está muy espeso, añade más leche. Si prefieres más frío, agrega hielo y licúa de nuevo.",
+            "Vierte en un vaso grande y disfruta inmediatamente para máxima frescura y nutrientes."
+        ],
+        mealPrepTips: [
+            "Prepara bolsas de smoothie: coloca todos los ingredientes sólidos en bolsas ziplock y congela.",
+            "Por la mañana, solo añade el líquido y licúa.",
+            "Puedes sustituir espinaca por col rizada para variar los nutrientes."
+        ]
+    }
+];
+
+        // ==================== LOAD RECIPES ====================
+        function loadRecipes() {
+            const grid = document.getElementById('recipes-grid');
+            grid.innerHTML = recipes.map(r => `
+                <div class="card" style="cursor: pointer;" onclick="openRecipeModal(${r.id})">
+                    <img src="${r.image}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3>${r.title}</h3>
+                    <p style="color: var(--text-light); margin: 0.5rem 0;"><i class="fas fa-clock"></i> ${r.time} | <i class="fas fa-fire"></i> ${r.calories} cal</p>
+                    <p style="margin: 1rem 0;"><strong>Proteína:</strong> ${r.nutrition.protein} | <strong>Dificultad:</strong> ${r.difficulty}</p>
+                    <button class="btn-primary" style="width: 100%; margin-top: 1rem;">Ver Receta Completa <i class="fas fa-arrow-right"></i></button>
+                </div>
+            `).join('');
+            window.recipesLoaded = true;
+        }
+
+        function openRecipeModal(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (!recipe) return;
+
+            document.getElementById('modal-recipe-title').innerHTML = `${recipe.title}`;
+            document.getElementById('modal-recipe-body').innerHTML = `
+                <img src="${recipe.image}" style="width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin-bottom: 2rem;">
+
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                    <div style="background: var(--light); padding: 0.75rem 1.5rem; border-radius: 8px;">
+                        <i class="fas fa-clock"></i> ${recipe.time}
+                    </div>
+                    <div style="background: var(--light); padding: 0.75rem 1.5rem; border-radius: 8px;">
+                        <i class="fas fa-fire"></i> ${recipe.calories} calorías
+                    </div>
+                    <div style="background: var(--light); padding: 0.75rem 1.5rem; border-radius: 8px;">
+                        <i class="fas fa-signal"></i> ${recipe.difficulty}
+                    </div>
+                </div>
+
+                <div class="nutrition-grid">
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">${recipe.nutrition.protein}</div>
+                        <div>Proteína</div>
+                    </div>
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">${recipe.nutrition.carbs}</div>
+                        <div>Carbos</div>
+                    </div>
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">${recipe.nutrition.fat}</div>
+                        <div>Grasas</div>
+                    </div>
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">${recipe.nutrition.fiber}</div>
+                        <div>Fibra</div>
+                    </div>
+                </div>
+
+                <div class="recipe-section">
+                    <h3><i class="fas fa-shopping-basket"></i> Ingredientes</h3>
+                    ${recipe.ingredients.map(ing => `<div class="ingredient-item">${ing}</div>`).join('')}
+                </div>
+
+                <div class="recipe-section">
+                    <h3><i class="fas fa-list-ol"></i> Instrucciones</h3>
+                    ${recipe.instructions.map((inst, i) => `
+                        <div class="instruction-item">
+                            <div class="step-number">${i + 1}</div>
+                            <div>${inst}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="recipe-section">
+                    <h3><i class="fas fa-lightbulb"></i> Tips de Meal Prep</h3>
+                    ${recipe.mealPrepTips.map(tip => `<div class="ingredient-item">${tip}</div>`).join('')}
+                </div>
+            `;
+
+            document.getElementById('recipe-modal').classList.add('active');
+        }
+
+        function closeRecipeModal() {
+            document.getElementById('recipe-modal').classList.remove('active');
+        }
+
+        // ==================== EXERCISES ====================
+        const exercises = [
+            {name: "Sentadillas", icon: "🏋️", type: "Fuerza", level: "Principiante", time: "15 mins", calories: 180, desc: "Ejercicio completo para piernas y glúteos"},
+            {name: "Flexiones", icon: "💪", type: "Fuerza", level: "Intermedio", time: "10 mins", calories: 150, desc: "Fortalece pecho, brazos y core"},
+            {name: "Plancha", icon: "🧘", type: "Core", level: "Principiante", time: "5 mins", calories: 80, desc: "Fortalece todo el core"},
+            {name: "Burpees", icon: "🔥", type: "Cardio", level: "Avanzado", time: "15 mins", calories: 250, desc: "Ejercicio completo de cuerpo entero"},
+            {name: "Zancadas", icon: "🦵", type: "Fuerza", level: "Principiante", time: "15 mins", calories: 160, desc: "Excelente para piernas"},
+            {name: "Mountain Climbers", icon: "⛰️", type: "Cardio", level: "Intermedio", time: "10 mins", calories: 200, desc: "Cardio intenso y core"},
+            {name: "Jumping Jacks", icon: "🏃", type: "Cardio", level: "Principiante", time: "10 mins", calories: 150, desc: "Calentamiento perfecto"},
+            {name: "Abdominales", icon: "🎯", type: "Core", level: "Principiante", time: "10 mins", calories: 90, desc: "Fortalece abdominales"},
+            {name: "Peso Muerto", icon: "🏋️", type: "Fuerza", level: "Intermedio", time: "15 mins", calories: 170, desc: "Trabaja toda la cadena posterior"},
+            {name: "Yoga", icon: "🧘‍♀️", type: "Flexibilidad", level: "Principiante", time: "10 mins", calories: 50, desc: "Mejora flexibilidad"},
+            {name: "Puente de Glúteos", icon: "🍑", type: "Fuerza", level: "Principiante", time: "10 mins", calories: 100, desc: "Fortalece glúteos"},
+            {name: "High Knees", icon: "🏃‍♂️", type: "Cardio", level: "Intermedio", time: "10 mins", calories: 180, desc: "Cardio de alto impacto"}
+        ];
+        
+        function loadExercises() {
+            const grid = document.getElementById('exercises-grid');
+            grid.innerHTML = exercises.map(ex => `
+                <div class="card">
+                    <div style="font-size: 4rem; text-align: center; margin-bottom: 1rem;">${ex.icon}</div>
+                    <h3>${ex.name}</h3>
+                    <p style="margin: 0.5rem 0;"><strong>${ex.type}</strong> | ${ex.level}</p>
+                    <p style="color: var(--text-light);"><i class="fas fa-clock"></i> ${ex.time} | <i class="fas fa-fire"></i> ${ex.calories} cal</p>
+                    <p style="margin-top: 1rem;">${ex.desc}</p>
+                </div>
+            `).join('');
+            window.exercisesLoaded = true;
+        }
+
+        // ==================== TRACKER ====================
+        function addEntry(e) {
+            e.preventDefault();
+            const date = document.getElementById('entry-date').value;
+            const weight = parseFloat(document.getElementById('entry-weight').value);
+            
+            let entries = JSON.parse(localStorage.getItem('fitlife_entries') || '[]');
+            entries.push({date, weight, id: Date.now()});
+            entries.sort((a,b) => new Date(a.date) - new Date(b.date));
+            localStorage.setItem('fitlife_entries', JSON.stringify(entries));
+            
+            alert('✅ Registro guardado!');
+            e.target.reset();
+            updateStats();
+            drawChart();
+        }
+        
+        function updateStats() {
+            const entries = JSON.parse(localStorage.getItem('fitlife_entries') || '[]');
+            const grid = document.getElementById('stats-cards');
+            if (entries.length === 0) {
+                grid.innerHTML = '<div class="card"><p>No hay registros aún. ¡Agrega tu primer registro!</p></div>';
+                return;
+            }
+            const latest = entries[entries.length - 1];
+            const first = entries[0];
+            const loss = first.weight - latest.weight;
+            grid.innerHTML = `
+                <div class="card"><h3>${latest.weight} kg</h3><p>Peso Actual</p></div>
+                <div class="card"><h3>${loss >= 0 ? '-' : '+'}${Math.abs(loss).toFixed(1)} kg</h3><p>Cambio Total</p></div>
+                <div class="card"><h3>${entries.length}</h3><p>Registros</p></div>
+                <div class="card"><h3>${((loss / first.weight) * 100).toFixed(1)}%</h3><p>Porcentaje</p></div>
+            `;
+        }
+        
+        function drawChart() {
+            const entries = JSON.parse(localStorage.getItem('fitlife_entries') || '[]');
+            const canvas = document.getElementById('progress-chart');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (entries.length < 2) {
+                ctx.fillText('Necesitas al menos 2 registros para ver la gráfica', 300, 200);
+                return;
+            }
+            const weights = entries.map(e => e.weight);
+            const min = Math.min(...weights) - 2;
+            const max = Math.max(...weights) + 2;
+            const padding = 50;
+            const width = canvas.width - padding * 2;
+            const height = canvas.height - padding * 2;
+            
+            ctx.strokeStyle = '#667eea';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            entries.forEach((e, i) => {
+                const x = padding + (width / (entries.length - 1)) * i;
+                const y = padding + height - ((e.weight - min) / (max - min)) * height;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+                ctx.fillStyle = '#667eea';
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.stroke();
+        }
+
+        // ==================== PLANNER ====================
+        function loadPlanner() {
+            const days = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+            const meals = [
+                ['🥤 Smoothie Bowl (320 cal)','🍎 Manzana (80 cal)','🥗 Ensalada Pollo (450 cal)','🫐 Yogur (180 cal)','🐟 Salmón Verduras (500 cal)'],
+                ['🍳 Omelette (280 cal)','🥜 Nueces (170 cal)','🥙 Buddha Bowl (500 cal)','🥬 Batido Verde (150 cal)','🌮 Tacos Pescado (480 cal)'],
+                ['🍨 Parfait Yogur (300 cal)','🥕 Hummus (150 cal)','🍗 Pollo Hierbas (450 cal)','🥤 Smoothie (220 cal)','🍚 Bowl Tofu (480 cal)'],
+                ['💚 Batido Verde (280 cal)','🍍 Cottage (180 cal)','🥗 Ensalada Garbanzos (450 cal)','🍫 Barrita (190 cal)','🍱 Poke Bowl (520 cal)'],
+                ['🥑 Tostada Aguacate (350 cal)','🫛 Edamame (120 cal)','🌯 Wrap Pavo (450 cal)','🍓 Frutas (150 cal)','🥘 Salteado (480 cal)'],
+                ['🥞 Pancakes Proteína (380 cal)','💪 Batido Post (200 cal)','🐟 Salmón Quinoa (550 cal)','🌰 Trail Mix (190 cal)','🍕 Pizza Saludable (450 cal)'],
+                ['🥙 Burrito Bowl (420 cal)','🍹 Smoothie (160 cal)','🍲 Sopa Lentejas (380 cal)','🥒 Apio (150 cal)','🍗 Pechuga Rellena (490 cal)']
+            ];
+            
+            const content = days.map((day,i) => `
+                <div class="card">
+                    <h3 style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 1rem; margin: -2rem -2rem 1rem; border-radius: 12px 12px 0 0;">
+                        ${day} - ${meals[i].reduce((sum,m) => sum + parseInt(m.match(/\\d+/)), 0)} cal total
+                    </h3>
+                    ${meals[i].map((meal,j) => `
+                        <div style="padding: 1rem; margin: 0.5rem 0; background: var(--light); border-radius: 8px;">
+                            <strong>${['Desayuno','Snack','Almuerzo','Snack','Cena'][j]}:</strong> ${meal}
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+            
+            document.getElementById('planner-content').innerHTML = content;
+            window.plannerLoaded = true;
+        }
+
+        // ==================== CHATBOT ====================
+        function toggleChat() {
+            const chatWindow = document.getElementById('chat-window');
+            chatWindow.classList.toggle('active');
+            if (chatWindow.classList.contains('active')) {
+                document.getElementById('chat-input').focus();
+            }
+        }
+
+        function askQuestion(question) {
+            document.getElementById('chat-input').value = question;
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const messagesContainer = document.getElementById('chat-messages');
+
+            // Add user message
+            messagesContainer.innerHTML += `<div class="chat-message user">${message}</div>`;
+            input.value = '';
+
+            // Get AI response
+            setTimeout(() => {
+                const response = getAIResponse(message);
+                messagesContainer.innerHTML += `<div class="chat-message bot">${response}</div>`;
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 500);
+        }
+
+        function getAIResponse(question) {
+            const q = question.toLowerCase();
+
+            // Base de conocimientos de nutrición y pérdida de peso
+            if (q.includes('agua') || q.includes('hidrat')) {
+                return '💧 Debes tomar aproximadamente 35ml de agua por kg de peso corporal. Usa nuestra <strong>Calculadora de Agua</strong> en la sección de Calculadoras para obtener tu objetivo personalizado. El agua ayuda a acelerar el metabolismo y reduce el hambre.';
+            }
+            else if (q.includes('perder peso') || q.includes('bajar') || q.includes('adelgazar')) {
+                return '🎯 Para perder peso de forma saludable:<br>1. Crea un déficit calórico de 500 cal/día (pierde ~0.5kg/semana)<br>2. Come más proteína (mantiene saciedad)<br>3. Haz ejercicio 3-4 veces por semana<br>4. Duerme 7-8 horas<br>5. Usa nuestro <strong>Tracker de Progreso</strong> para seguimiento.';
+            }
+            else if (q.includes('proteína') || q.includes('proteina')) {
+                return '🥩 La proteína es esencial para perder peso:<br>• Objetivo: 1.6-2.2g por kg de peso<br>• Aumenta saciedad y metabolismo<br>• Preserva masa muscular<br>• Fuentes: pollo, pescado, huevos, legumbres, yogur griego<br>Mira nuestras <strong>Recetas</strong> ricas en proteína.';
+            }
+            else if (q.includes('ejercicio') || q.includes('entrenar')) {
+                return '💪 Plan de ejercicio para pérdida de peso:<br>• 3x semana: Entrenamiento de fuerza (preserva músculo)<br>• 2-3x semana: Cardio moderado (20-30 min)<br>• Camina 10,000 pasos diarios<br>• Descansa 1-2 días<br>Explora nuestra sección de <strong>Ejercicios</strong> con 12 rutinas.';
+            }
+            else if (q.includes('evitar') || q.includes('no comer')) {
+                return '🚫 Alimentos a limitar para perder peso:<br>• Azúcares añadidos y refrescos<br>• Frituras y ultraprocesados<br>• Alcohol (calorías vacías)<br>• Panes blancos y harinas refinadas<br>✅ Enfócate en: vegetales, proteínas magras, granos enteros, frutas.';
+            }
+            else if (q.includes('imc') || q.includes('índice')) {
+                return '📊 El IMC (Índice de Masa Corporal) relaciona tu peso y altura:<br>• Bajo peso: <18.5<br>• Normal: 18.5-24.9<br>• Sobrepeso: 25-29.9<br>• Obesidad: ≥30<br>Usa nuestra <strong>Calculadora de IMC</strong> para calcular el tuyo y saber cuántos kg te faltan para tu peso ideal.';
+            }
+            else if (q.includes('calorías') || q.includes('calorias')) {
+                return '🔥 Calorías para perder peso:<br>1. Calcula tu TDEE (gasto calórico total)<br>2. Resta 500 cal para perder ~0.5kg/semana<br>3. No bajes de 1200 cal (mujeres) o 1500 cal (hombres)<br>Usa nuestra <strong>Calculadora de Calorías</strong> para tu plan personalizado.';
+            }
+            else if (q.includes('carbohidrato') || q.includes('carbs')) {
+                return '🍚 Carbohidratos en pérdida de peso:<br>• No son el enemigo - elige los correctos<br>• Prefiere: avena, arroz integral, quinoa, batata<br>• Evita: azúcares, harinas blancas, dulces<br>• Objetivo: 40-50% de tus calorías<br>• Consúmelos después de entrenar';
+            }
+            else if (q.includes('dormir') || q.includes('sueño')) {
+                return '😴 El sueño es crucial para perder peso:<br>• 7-8 horas por noche es óptimo<br>• Poco sueño aumenta cortisol (hormona del estrés)<br>• Más hambre al día siguiente<br>• Peor recuperación muscular<br>• Afecta metabolismo hasta 20%';
+            }
+            else if (q.includes('ayuno') || q.includes('intermitente')) {
+                return '⏰ Ayuno intermitente:<br>• 16:8 es el más popular (16h ayuno, 8h comida)<br>• Ayuda a crear déficit calórico<br>• No es mágico - las calorías siguen importando<br>• Bueno si te funciona, no obligatorio<br>• Mantén hidratación durante ayuno';
+            }
+            else if (q.includes('receta') || q.includes('comida')) {
+                return '🍽️ Tenemos <strong>15 recetas deliciosas</strong> para pérdida de peso:<br>• Ensaladas con proteína<br>• Buddha bowls nutritivos<br>• Salmón y pescado<br>• Smoothie bowls<br>• Todas con info nutricional completa<br>Ve a la sección de <strong>Recetas</strong> y haz clic en cualquiera para ver ingredientes y preparación.';
+            }
+            else if (q.includes('motivación') || q.includes('motivacion') || q.includes('ayuda')) {
+                return '💪 Consejos de motivación:<br>1. Establece metas pequeñas y alcanzables<br>2. Toma fotos de progreso (más importantes que la báscula)<br>3. Celebra cada logro pequeño<br>4. Ten un "por qué" fuerte<br>5. No busques perfección, busca consistencia<br>🌟 Usa nuestro <strong>Tracker</strong> para ver tu progreso visual.';
+            }
+            else if (q.includes('plato') || q.includes('porción')) {
+                return '🍽️ Método del plato saludable:<br>• 50% vegetales (brócoli, espinaca, etc)<br>• 25% proteína magra (pollo, pescado, tofu)<br>• 25% carbohidratos complejos (arroz integral, quinoa)<br>• 1 cucharada de grasa saludable (aceite oliva, aguacate)';
+            }
+            else if (q.includes('hola') || q.includes('buenos') || q.includes('hi')) {
+                return '¡Hola! 👋 Soy tu asistente de FitLife Pro. Puedo ayudarte con:<br>• Nutrición y dietas<br>• Ejercicio y rutinas<br>• Pérdida de peso saludable<br>• Cálculo de calorías, IMC, agua<br>• Recetas saludables<br>¿Qué te gustaría saber?';
+            }
+            else {
+                return '🤔 Interesante pregunta. Puedo ayudarte con:<br>• Pérdida de peso y nutrición<br>• Ejercicios y rutinas<br>• Calculadoras (IMC, calorías, agua)<br>• Recetas saludables<br>• Tips de motivación<br><br>Intenta preguntar algo como "¿Cómo perder peso?" o "¿Cuánta agua tomar?"';
+            }
+        }
+
+        // ==================== DAILY TIPS ====================
+        const dailyTips = [
+            '💧 Bebe un vaso de agua al despertar - activa tu metabolismo hasta 24%',
+            '🥗 Come proteína en cada comida - mantiene la saciedad y quema más calorías',
+            '🚶 Camina 10,000 pasos diarios - quema 300-400 calorías extras',
+            '😴 Duerme 7-8 horas - el sueño deficiente aumenta el hambre hasta 25%',
+            '🥑 Incluye grasas saludables - aguacate y nueces ayudan a absorber vitaminas',
+            '🍽️ Come despacio y mastica bien - tu cerebro tarda 20 min en sentir saciedad',
+            '📊 Pésate solo 1 vez por semana - el peso fluctúa diariamente hasta 2kg',
+            '🏋️ Entrena fuerza 3x semana - el músculo quema calorías incluso en reposo',
+            '🥤 Evita bebidas azucaradas - tienen calorías vacías sin saciar',
+            '📝 Planifica tus comidas - reduces decisiones impulsivas y comes mejor',
+            '🍎 Snackea frutas y vegetales - volumen alto, calorías bajas',
+            '⏰ No saltes comidas - causa hambre extrema y mala toma de decisiones',
+            '🧘 Reduce el estrés - el cortisol alto promueve acumulación de grasa',
+            '📸 Toma fotos de progreso - más importantes que el número en la báscula',
+            '🎯 Establece metas realistas - 0.5-1kg por semana es saludable y sostenible',
+            '🥦 Llena la mitad del plato con vegetales - alto volumen, bajas calorías',
+            '💪 La consistencia vence la perfección - 80% bien es mejor que 100% imposible',
+            '🌊 Bebe agua antes de comer - puede reducir el hambre hasta 20%',
+            '🏃 HIIT 2x semana - 20 minutos queman más que 40 de cardio tradicional',
+            '🍳 Desayuna proteína - reduce antojos durante el día hasta 60%'
+        ];
+
+        function showRandomTip() {
+            const tip = dailyTips[Math.floor(Math.random() * dailyTips.length)];
+            const tipElement = document.getElementById('daily-tip');
+            if (tipElement) {
+                tipElement.innerHTML = tip;
+            }
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.getElementById('entry-date').valueAsDate = new Date();
+        updateStats();
+        drawChart();
+        showRandomTip();
+
+        // Change tip every 10 seconds
+        setInterval(showRandomTip, 10000);
+
+        console.log('✅ FitLife Pro - Single Page App - COMPLETO!');
+    </script>
+</body>
+</html>
